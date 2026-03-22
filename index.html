@@ -1,46 +1,138 @@
 <!DOCTYPE html>
 <html lang="sv">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MyEngine</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <div class="app ev" id="app">
+    <div class="bgGrid"></div>
+    <div class="bgGlow bgGlowA"></div>
+    <div class="bgGlow bgGlowB"></div>
+    <div class="speedLines" id="speedLines"></div>
+    <div class="noise"></div>
 
-<div class="app ev">
+    <header class="topbar">
+      <div class="modePill" id="modePill">EV BEAST</div>
+      <div class="systemText" id="systemText">CORE ONLINE</div>
+    </header>
 
-  <!-- CORE -->
-  <div class="coreWrap">
-    <div class="core">
-      <div class="coreInner"></div>
-    </div>
-    <div class="label">CORE</div>
+    <main class="dashboard">
+      <section class="side sideLeft">
+        <div class="ringCard">
+          <div class="ringTitle">POWER ARC</div>
+          <div class="ring ringPower" id="powerRing">
+            <div class="ringHalo"></div>
+            <div class="ringInner">
+              <div class="ringValue" id="powerValue">38</div>
+              <div class="ringUnit">FLOW</div>
+            </div>
+          </div>
+          <div class="ringCaption" id="powerCaption">electric pulse stable</div>
+        </div>
+      </section>
+
+      <section class="centerCore">
+        <div class="coreShell" id="coreShell">
+          <div class="orbit orbit1"></div>
+          <div class="orbit orbit2"></div>
+          <div class="orbit orbit3"></div>
+
+          <div class="shockContainer" id="shockContainer"></div>
+
+          <div class="coreAura coreAura1"></div>
+          <div class="coreAura coreAura2"></div>
+
+          <div class="core" id="core">
+            <div class="coreSpin coreSpinA"></div>
+            <div class="coreSpin coreSpinB"></div>
+            <div class="coreCenter">
+              <div class="coreLabel">CORE</div>
+              <div class="coreMode" id="coreMode">EV</div>
+            </div>
+          </div>
+
+          <div class="coreTicks">
+            <span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span>
+          </div>
+        </div>
+
+        <div class="stageWrap">
+          <div class="stageLabel">STAGE</div>
+          <div class="stageValue" id="stageValue">E-DRIVE</div>
+        </div>
+
+        <div class="statusDeck">
+          <div class="statusBox">
+            <span class="statusName">SURGE</span>
+            <span class="statusVal" id="surgeValue">22</span>
+          </div>
+          <div class="statusBox">
+            <span class="statusName">THRUST</span>
+            <span class="statusVal" id="thrustValue">14</span>
+          </div>
+          <div class="statusBox">
+            <span class="statusName">HEAT</span>
+            <span class="statusVal" id="heatValue">08</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="side sideRight">
+        <div class="ringCard">
+          <div class="ringTitle">BOOST ARC</div>
+          <div class="ring ringBoost" id="boostRing">
+            <div class="ringHalo"></div>
+            <div class="ringInner">
+              <div class="ringValue" id="boostValue">12</div>
+              <div class="ringUnit">BOOST</div>
+            </div>
+          </div>
+          <div class="ringCaption" id="boostCaption">standby pressure</div>
+        </div>
+      </section>
+    </main>
+
+    <section class="lowerHud">
+      <div class="barCard">
+        <div class="barHeader">
+          <span>REACTOR LOAD</span>
+          <span id="reactorPct">34%</span>
+        </div>
+        <div class="barOuter">
+          <div class="barFill" id="reactorBar"></div>
+        </div>
+      </div>
+
+      <div class="barCard">
+        <div class="barHeader">
+          <span>TURBO PRESSURE</span>
+          <span id="turboPct">08%</span>
+        </div>
+        <div class="barOuter">
+          <div class="barFill turboFill" id="turboBar"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="controls">
+      <button class="actionBtn startBtn" id="startBtn">
+        <span class="btnGlow"></span>
+        <span class="btnLabelTop">START</span>
+        <span class="btnLabelBottom">ENGINE</span>
+      </button>
+
+      <button class="actionBtn turboBtn" id="turboBtn">
+        <span class="btnGlow"></span>
+        <span class="btnLabelTop">TURBO</span>
+        <span class="btnLabelBottom">MODE</span>
+      </button>
+    </section>
   </div>
 
-  <!-- LEFT ARC -->
-  <div class="arc left">
-    <div class="arcFill" id="powerArc"></div>
-    <div class="arcLabel">POWER</div>
-  </div>
-
-  <!-- RIGHT ARC -->
-  <div class="arc right">
-    <div class="arcFill" id="boostArc"></div>
-    <div class="arcLabel">BOOST</div>
-  </div>
-
-  <!-- STATUS -->
-  <div class="status" id="statusText">EV MODE</div>
-
-  <!-- BUTTONS -->
-  <div class="controls">
-    <button id="startBtn">START<br>ENGINE</button>
-    <button id="turboBtn">TURBO</button>
-  </div>
-
-</div>
-
-<script src="app.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
