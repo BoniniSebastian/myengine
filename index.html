@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MyEngine</title>
+  <title>MyEngine V3</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -21,7 +21,7 @@
 
     <main class="dashboard">
       <section class="side sideLeft">
-        <div class="ringCard">
+        <div class="ringCard bigCard">
           <div class="ringTitle">POWER ARC</div>
           <div class="ring ringPower" id="powerRing">
             <div class="ringHalo"></div>
@@ -35,6 +35,21 @@
       </section>
 
       <section class="centerCore">
+        <div class="heroStats">
+          <div class="heroChip">
+            <div class="heroName">MODE</div>
+            <div class="heroVal" id="heroMode">EV</div>
+          </div>
+          <div class="heroChip">
+            <div class="heroName">STAGE</div>
+            <div class="heroVal" id="stageValue">E-DRIVE</div>
+          </div>
+          <div class="heroChip">
+            <div class="heroName">PEAK</div>
+            <div class="heroVal" id="peakValue">CALM</div>
+          </div>
+        </div>
+
         <div class="coreShell" id="coreShell">
           <div class="orbit orbit1"></div>
           <div class="orbit orbit2"></div>
@@ -60,29 +75,32 @@
           </div>
         </div>
 
-        <div class="stageWrap">
-          <div class="stageLabel">STAGE</div>
-          <div class="stageValue" id="stageValue">E-DRIVE</div>
-        </div>
-
-        <div class="statusDeck">
-          <div class="statusBox">
-            <span class="statusName">SURGE</span>
-            <span class="statusVal" id="surgeValue">22</span>
+        <div class="miniMeterRow">
+          <div class="miniMeter">
+            <div class="miniLabel">SURGE</div>
+            <div class="miniTrack"><div class="miniFill" id="surgeBar"></div></div>
+            <div class="miniVal" id="surgeValue">22</div>
           </div>
-          <div class="statusBox">
-            <span class="statusName">THRUST</span>
-            <span class="statusVal" id="thrustValue">14</span>
+          <div class="miniMeter">
+            <div class="miniLabel">THRUST</div>
+            <div class="miniTrack"><div class="miniFill" id="thrustBar"></div></div>
+            <div class="miniVal" id="thrustValue">14</div>
           </div>
-          <div class="statusBox">
-            <span class="statusName">HEAT</span>
-            <span class="statusVal" id="heatValue">08</span>
+          <div class="miniMeter">
+            <div class="miniLabel">HEAT</div>
+            <div class="miniTrack"><div class="miniFill" id="heatBar"></div></div>
+            <div class="miniVal" id="heatValue">08</div>
+          </div>
+          <div class="miniMeter">
+            <div class="miniLabel">OUTPUT</div>
+            <div class="miniTrack"><div class="miniFill" id="outputBar"></div></div>
+            <div class="miniVal" id="outputValue">31</div>
           </div>
         </div>
       </section>
 
       <section class="side sideRight">
-        <div class="ringCard">
+        <div class="ringCard bigCard">
           <div class="ringTitle">BOOST ARC</div>
           <div class="ring ringBoost" id="boostRing">
             <div class="ringHalo"></div>
@@ -116,9 +134,25 @@
           <div class="barFill turboFill" id="turboBar"></div>
         </div>
       </div>
+
+      <div class="barCard">
+        <div class="barHeader">
+          <span>IGNITION SYNC</span>
+          <span id="syncPct">19%</span>
+        </div>
+        <div class="barOuter">
+          <div class="barFill syncFill" id="syncBar"></div>
+        </div>
+      </div>
     </section>
 
     <section class="controls">
+      <button class="actionBtn evBtn" id="evBtn">
+        <span class="btnGlow"></span>
+        <span class="btnLabelTop">EV</span>
+        <span class="btnLabelBottom">RETURN</span>
+      </button>
+
       <button class="actionBtn startBtn" id="startBtn">
         <span class="btnGlow"></span>
         <span class="btnLabelTop">START</span>
