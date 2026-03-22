@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MyEngine V4</title>
+  <title>MyEngine Tesla</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -20,37 +20,25 @@
     </header>
 
     <main class="dashboard">
-      <section class="side sideLeft">
-        <div class="ringCard">
-          <div class="ringTitle">POWER ARC</div>
-          <div class="ring" id="powerRing">
-            <div class="ringHalo"></div>
-            <div class="ringInner">
-              <div class="ringValue" id="powerValue">38</div>
-              <div class="ringUnit">FLOW</div>
+      <section class="sideCluster leftCluster">
+        <div class="sideDialWrap">
+          <div class="sideDialLabel">POWER</div>
+          <div class="sideDial" id="powerDial">
+            <div class="sideDialInner">
+              <div class="sideDialValue" id="powerValue">38</div>
+              <div class="sideDialUnit">FLOW</div>
             </div>
           </div>
-          <div class="ringCaption" id="powerCaption">electric pulse stable</div>
         </div>
+
+        <div class="sideMiniText" id="powerCaption">electric pulse stable</div>
       </section>
 
       <section class="centerCore">
-        <div class="heroStats">
-          <div class="heroChip">
-            <div class="heroName">MODE</div>
-            <div class="heroVal" id="heroMode">EV</div>
-          </div>
-          <div class="heroChip">
-            <div class="heroName">STAGE</div>
-            <div class="heroVal" id="stageValue">E-DRIVE</div>
-          </div>
-          <div class="heroChip">
-            <div class="heroName">PEAK</div>
-            <div class="heroVal" id="peakValue">CALM</div>
-          </div>
-        </div>
-
         <div class="coreShell">
+          <div class="outerArc leftArc" id="leftArc"></div>
+          <div class="outerArc rightArc" id="rightArc"></div>
+
           <div class="orbit orbit1"></div>
           <div class="orbit orbit2"></div>
           <div class="orbit orbit3"></div>
@@ -66,12 +54,8 @@
             <div class="coreCenter">
               <div class="coreLabel">CORE</div>
               <div class="coreMode" id="coreMode">EV</div>
+              <div class="coreStage" id="stageText">E-DRIVE</div>
             </div>
-          </div>
-
-          <div class="coreTicks">
-            <span></span><span></span><span></span><span></span>
-            <span></span><span></span><span></span><span></span>
           </div>
         </div>
 
@@ -103,74 +87,68 @@
             </div>
           </div>
         </div>
+
+        <section class="statusRails">
+          <div class="railRow">
+            <div class="railLabel">REACTOR LOAD</div>
+            <div class="railTrack">
+              <div class="railFill" id="reactorBar"></div>
+            </div>
+            <div class="railPct" id="reactorPct">34%</div>
+          </div>
+
+          <div class="railRow">
+            <div class="railLabel">TURBO PRESSURE</div>
+            <div class="railTrack">
+              <div class="railFill turboFill" id="turboBar"></div>
+            </div>
+            <div class="railPct" id="turboPct">08%</div>
+          </div>
+
+          <div class="railRow">
+            <div class="railLabel">IGNITION SYNC</div>
+            <div class="railTrack">
+              <div class="railFill syncFill" id="syncBar"></div>
+            </div>
+            <div class="railPct" id="syncPct">19%</div>
+          </div>
+        </section>
+
+        <section class="controlPod" aria-label="Kontroller">
+          <button class="podBtn podBtn-left evBtn" id="evBtn">
+            <span class="podGlow"></span>
+            <span class="podTop">EV</span>
+            <span class="podBottom">RETURN</span>
+          </button>
+
+          <button class="podBtn podBtn-center startBtn" id="startBtn">
+            <span class="podGlow"></span>
+            <span class="podTop">START</span>
+            <span class="podBottom">ENGINE</span>
+          </button>
+
+          <button class="podBtn podBtn-right turboBtn" id="turboBtn">
+            <span class="podGlow"></span>
+            <span class="podTop">TURBO</span>
+            <span class="podBottom">MODE</span>
+          </button>
+        </section>
       </section>
 
-      <section class="side sideRight">
-        <div class="ringCard">
-          <div class="ringTitle">BOOST ARC</div>
-          <div class="ring" id="boostRing">
-            <div class="ringHalo"></div>
-            <div class="ringInner">
-              <div class="ringValue" id="boostValue">12</div>
-              <div class="ringUnit">BOOST</div>
+      <section class="sideCluster rightCluster">
+        <div class="sideDialWrap">
+          <div class="sideDialLabel">BOOST</div>
+          <div class="sideDial" id="boostDial">
+            <div class="sideDialInner">
+              <div class="sideDialValue" id="boostValue">12</div>
+              <div class="sideDialUnit">BOOST</div>
             </div>
           </div>
-          <div class="ringCaption" id="boostCaption">standby pressure</div>
         </div>
+
+        <div class="sideMiniText" id="boostCaption">standby pressure</div>
       </section>
     </main>
-
-    <section class="lowerHud">
-      <div class="barCard">
-        <div class="barHeader">
-          <span>REACTOR LOAD</span>
-          <span id="reactorPct">34%</span>
-        </div>
-        <div class="barOuter">
-          <div class="barFill" id="reactorBar"></div>
-        </div>
-      </div>
-
-      <div class="barCard">
-        <div class="barHeader">
-          <span>TURBO PRESSURE</span>
-          <span id="turboPct">08%</span>
-        </div>
-        <div class="barOuter">
-          <div class="barFill turboFill" id="turboBar"></div>
-        </div>
-      </div>
-
-      <div class="barCard">
-        <div class="barHeader">
-          <span>IGNITION SYNC</span>
-          <span id="syncPct">19%</span>
-        </div>
-        <div class="barOuter">
-          <div class="barFill syncFill" id="syncBar"></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="controls">
-      <button class="actionBtn evBtn" id="evBtn">
-        <span class="btnGlow"></span>
-        <span class="btnLabelTop">EV</span>
-        <span class="btnLabelBottom">RETURN</span>
-      </button>
-
-      <button class="actionBtn startBtn" id="startBtn">
-        <span class="btnGlow"></span>
-        <span class="btnLabelTop">START</span>
-        <span class="btnLabelBottom">ENGINE</span>
-      </button>
-
-      <button class="actionBtn turboBtn" id="turboBtn">
-        <span class="btnGlow"></span>
-        <span class="btnLabelTop">TURBO</span>
-        <span class="btnLabelBottom">MODE</span>
-      </button>
-    </section>
   </div>
 
   <script src="app.js"></script>
