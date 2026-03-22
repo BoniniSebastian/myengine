@@ -3,12 +3,12 @@ const app = document.getElementById("app");
 const modePill = document.getElementById("modePill");
 const systemText = document.getElementById("systemText");
 const coreMode = document.getElementById("coreMode");
-const heroMode = document.getElementById("heroMode");
-const stageValue = document.getElementById("stageValue");
-const peakValue = document.getElementById("peakValue");
+const stageText = document.getElementById("stageText");
 
-const powerRing = document.getElementById("powerRing");
-const boostRing = document.getElementById("boostRing");
+const powerDial = document.getElementById("powerDial");
+const boostDial = document.getElementById("boostDial");
+const leftArc = document.getElementById("leftArc");
+const rightArc = document.getElementById("rightArc");
 
 const powerValue = document.getElementById("powerValue");
 const boostValue = document.getElementById("boostValue");
@@ -62,17 +62,17 @@ function clamp(num, min, max){
   return Math.max(min, Math.min(max, num));
 }
 
-function setRing(el, pct){
+function setDial(el, pct){
   el.style.setProperty("--pct", clamp(pct, 0, 100));
-}
-
-function setMiniDial(el, pct){
-  const ring = el.querySelector(".miniDialRing");
-  ring.style.setProperty("--pct", clamp(pct, 0, 100));
 }
 
 function setBar(el, pct){
   el.style.width = `${clamp(pct, 0, 100)}%`;
+}
+
+function setArcStrength(el, pct){
+  const o = 0.35 + (clamp(pct, 0, 100) / 100) * 0.65;
+  el.style.opacity = o.toFixed(2);
 }
 
 function pad2(n){
@@ -91,12 +91,14 @@ function render(){
   turboPct.textContent = `${pad2(values.turbo)}%`;
   syncPct.textContent = `${pad2(values.sync)}%`;
 
-  setRing(powerRing, values.power);
-  setRing(boostRing, values.boost);
+  setDial(powerDial, values.power);
+  setDial(boostDial, values.boost);
+  setDial(surgeDial.querySelector(".miniDialRing"), values.surge);
+  setDial(thrustDial.querySelector(".miniDialRing"), values.thrust);
+  setDial(heatDial.querySelector(".miniDialRing"), values.heat);
 
-  setMiniDial(surgeDial, values.surge);
-  setMiniDial(thrustDial, values.thrust);
-  setMiniDial(heatDial, values.heat);
+  setArcStrength(leftArc, values.power);
+  setArcStrength(rightArc, values.boost);
 
   setBar(reactorBar, values.reactor);
   setBar(turboBar, values.turbo);
@@ -113,13 +115,11 @@ function switchState(next){
   app.classList.add(next);
 }
 
-function setTexts(mode, sys, core, stage, peak, powerCap, boostCap){
+function setTexts(mode, sys, core, stage, powerCap, boostCap){
   modePill.textContent = mode;
   systemText.textContent = sys;
   coreMode.textContent = core;
-  heroMode.textContent = core;
-  stageValue.textContent = stage;
-  peakValue.textContent = peak;
+  stageText.textContent = stage;
   powerCaption.textContent = powerCap;
   boostCaption.textContent = boostCap;
 }
@@ -174,7 +174,6 @@ function startEvAmbient(){
     "core online",
     "EV",
     "E-DRIVE",
-    "CALM",
     "electric pulse stable",
     "standby pressure"
   );
@@ -184,14 +183,14 @@ function startEvAmbient(){
 
     ticker += 0.02;
 
-    values.power = 36 + Math.sin(ticker) * 7 + Math.sin(ticker * 0.5) * 2;
-    values.boost = 10 + Math.sin(ticker * 1.5 + 1.1) * 4;
-    values.surge = 20 + Math.sin(ticker * 1.1) * 5;
-    values.thrust = 13 + Math.sin(ticker * 0.8 + 0.5) * 3;
+    values.power = 30 + Math.sin(ticker) * 6 + Math.sin(ticker * 0.5) * 2;
+    values.boost = 7 + Math.sin(ticker * 1.5 + 1.1) * 3;
+    values.surge = 18 + Math.sin(ticker * 1.1) * 4;
+    values.thrust = 12 + Math.sin(ticker * 0.8 + 0.5) * 3;
     values.heat = 7 + Math.sin(ticker * 0.7 + 2) * 2;
-    values.reactor = 32 + Math.sin(ticker * 0.85) * 6;
-    values.turbo = 7 + Math.sin(ticker * 1.7 + 1.3) * 2;
-    values.sync = 18 + Math.sin(ticker * 0.6 + 0.8) * 4;
+    values.reactor = 30 + Math.sin(ticker * 0.85) * 5;
+    values.turbo = 6 + Math.sin(ticker * 1.7 + 1.3) * 2;
+    values.sync = 16 + Math.sin(ticker * 0.6 + 0.8) * 4;
 
     render();
     animFrame = requestAnimationFrame(loop);
@@ -208,12 +207,12 @@ function holdEngineAmbient(){
 
     ticker += 0.045;
 
-    values.power = 71 + Math.sin(ticker * 0.9) * 5;
-    values.boost = 23 + Math.sin(ticker * 1.5) * 3;
+    values.power = 72 + Math.sin(ticker * 0.9) * 5;
+    values.boost = 24 + Math.sin(ticker * 1.5) * 3;
     values.surge = 46 + Math.sin(ticker * 1.2) * 4;
     values.thrust = 35 + Math.sin(ticker * 1.1 + 0.6) * 3;
     values.heat = 33 + Math.sin(ticker * 0.8 + 0.9) * 3;
-    values.reactor = 67 + Math.sin(ticker * 1.1) * 5;
+    values.reactor = 68 + Math.sin(ticker * 1.1) * 5;
     values.turbo = 18 + Math.sin(ticker * 1.8) * 2;
     values.sync = 62 + Math.sin(ticker * 1.2 + 0.3) * 6;
 
@@ -257,7 +256,6 @@ function engineIgnitionSequence(){
     "ignition sequence",
     "IGN",
     "STAGE I",
-    "WAKE",
     "combustion wakeup",
     "pressure rising"
   );
@@ -314,7 +312,6 @@ function engineIgnitionSequence(){
         "hybrid beast active",
         "LIVE",
         "STAGE II",
-        "ARMED",
         "reactor awake",
         "boost armed"
       );
@@ -334,7 +331,6 @@ function turboSequence(){
     "boost engaged",
     "RAGE",
     "STAGE III",
-    "ATTACK",
     "reactor overdrive",
     "pressure unlocked"
   );
@@ -346,10 +342,10 @@ function turboSequence(){
   safePlay(turboSound);
 
   const stages = [
-    { label: "STAGE III", peak: "RISE",  power: 84, boost: 48, surge: 58, thrust: 46, heat: 38, reactor: 74, turbo: 42, sync: 73 },
-    { label: "STAGE IV",  peak: "CLAW",  power: 96, boost: 66, surge: 74, thrust: 63, heat: 52, reactor: 82, turbo: 58, sync: 84 },
-    { label: "STAGE V",   peak: "RUSH",  power: 100, boost: 82, surge: 89, thrust: 80, heat: 68, reactor: 92, turbo: 74, sync: 92 },
-    { label: "BEAST MAX", peak: "MAX",   power: 100, boost: 100, surge: 100, thrust: 100, heat: 86, reactor: 100, turbo: 100, sync: 100 }
+    { label: "STAGE III", power: 84, boost: 48, surge: 58, thrust: 46, heat: 38, reactor: 74, turbo: 42, sync: 73 },
+    { label: "STAGE IV",  power: 96, boost: 66, surge: 74, thrust: 63, heat: 52, reactor: 82, turbo: 58, sync: 84 },
+    { label: "STAGE V",   power: 100, boost: 82, surge: 89, thrust: 80, heat: 68, reactor: 92, turbo: 74, sync: 92 },
+    { label: "BEAST MAX", power: 100, boost: 100, surge: 100, thrust: 100, heat: 86, reactor: 100, turbo: 100, sync: 100 }
   ];
 
   let idx = 0;
@@ -361,7 +357,6 @@ function turboSequence(){
         "monster output stable",
         "MAX",
         "BEAST MAX",
-        "MAX",
         "full reactor force",
         "all pressure released"
       );
@@ -370,8 +365,7 @@ function turboSequence(){
     }
 
     const target = stages[idx];
-    stageValue.textContent = target.label;
-    peakValue.textContent = target.peak;
+    stageText.textContent = target.label;
     shockwave(2, 0);
 
     animateTo(target, 460, () => {
@@ -410,7 +404,6 @@ function resetToEv(){
     "returning to electric core",
     "EV",
     "E-DRIVE",
-    "CALM",
     "electric pulse stable",
     "standby pressure"
   );
