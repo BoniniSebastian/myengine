@@ -3,39 +3,50 @@ const app = document.getElementById("app");
 const modePill = document.getElementById("modePill");
 const systemText = document.getElementById("systemText");
 const coreMode = document.getElementById("coreMode");
+const heroMode = document.getElementById("heroMode");
 const stageValue = document.getElementById("stageValue");
+const peakValue = document.getElementById("peakValue");
 
 const powerRing = document.getElementById("powerRing");
 const boostRing = document.getElementById("boostRing");
 
 const powerValue = document.getElementById("powerValue");
 const boostValue = document.getElementById("boostValue");
+
 const surgeValue = document.getElementById("surgeValue");
 const thrustValue = document.getElementById("thrustValue");
 const heatValue = document.getElementById("heatValue");
+const outputValue = document.getElementById("outputValue");
+
+const surgeBar = document.getElementById("surgeBar");
+const thrustBar = document.getElementById("thrustBar");
+const heatBar = document.getElementById("heatBar");
+const outputBar = document.getElementById("outputBar");
 
 const powerCaption = document.getElementById("powerCaption");
 const boostCaption = document.getElementById("boostCaption");
 
 const reactorBar = document.getElementById("reactorBar");
 const turboBar = document.getElementById("turboBar");
+const syncBar = document.getElementById("syncBar");
+
 const reactorPct = document.getElementById("reactorPct");
 const turboPct = document.getElementById("turboPct");
+const syncPct = document.getElementById("syncPct");
 
 const shockContainer = document.getElementById("shockContainer");
 
+const evBtn = document.getElementById("evBtn");
 const startBtn = document.getElementById("startBtn");
 const turboBtn = document.getElementById("turboBtn");
 
 const startSound = new Audio("assets/Start engine.mp3");
 const turboSound = new Audio("assets/Ferrari acc.mp3");
-
 startSound.preload = "auto";
 turboSound.preload = "auto";
 
 let state = "ev";
 let animFrame = null;
-let turboInterval = null;
 let evTicker = 0;
 
 const values = {
@@ -44,8 +55,10 @@ const values = {
   surge: 22,
   thrust: 14,
   heat: 8,
+  output: 31,
   reactor: 34,
-  turbo: 8
+  turbo: 8,
+  sync: 19
 };
 
 function clamp(num, min, max){
@@ -67,18 +80,31 @@ function pad2(n){
 function render(){
   powerValue.textContent = Math.round(values.power);
   boostValue.textContent = Math.round(values.boost);
+
   surgeValue.textContent = pad2(values.surge);
   thrustValue.textContent = pad2(values.thrust);
   heatValue.textContent = pad2(values.heat);
+  outputValue.textContent = pad2(values.output);
 
   reactorPct.textContent = `${Math.round(values.reactor)}%`;
   turboPct.textContent = `${pad2(values.turbo)}%`;
+  syncPct.textContent = `${pad2(values.sync)}%`;
 
   setRing(powerRing, values.power);
   setRing(boostRing, values.boost);
 
+  setBar(surgeBar, values.surge);
+  setBar(thrustBar, values.thrust);
+  setBar(heatBar, values.heat);
+  setBar(outputBar, values.output);
+
   setBar(reactorBar, values.reactor);
   setBar(turboBar, values.turbo);
+  setBar(syncBar, values.sync);
+}
+
+function stopLoops(){
+  cancelAnimationFrame(animFrame);
 }
 
 function shockwave(count = 1, delay = 0){
@@ -98,24 +124,36 @@ function switchState(next){
   app.classList.add(next);
 }
 
-function setTexts(mode, sys, core, stage, powerCap, boostCap){
+function setTexts(mode, sys, core, stage, peak, powerCap, boostCap){
   modePill.textContent = mode;
   systemText.textContent = sys;
   coreMode.textContent = core;
+  heroMode.textContent = core;
   stageValue.textContent = stage;
+  peakValue.textContent = peak;
   powerCaption.textContent = powerCap;
   boostCaption.textContent = boostCap;
 }
 
-function stopTurboInterval(){
-  if(turboInterval){
-    clearInterval(turboInterval);
-    turboInterval = null;
-  }
+function safePlay(audio){
+  try{
+    audio.currentTime = 0;
+    audio.play();
+  }catch(e){}
 }
 
 function startEvAmbient(){
-  cancelAnimationFrame(animFrame);
+  stopLoops();
+
+  setTexts(
+    "EV BEAST",
+    "core online",
+    "EV",
+    "E-DRIVE",
+    "CALM",
+    "electric pulse stable",
+    "standby pressure"
+  );
 
   const loop = () => {
     if(state !== "ev") return;
@@ -127,8 +165,10 @@ function startEvAmbient(){
     values.surge = 20 + Math.sin(evTicker * 1.1) * 5;
     values.thrust = 13 + Math.sin(evTicker * 0.8 + 0.5) * 3;
     values.heat = 7 + Math.sin(evTicker * 0.7 + 2) * 2;
+    values.output = 28 + Math.sin(evTicker * 0.9 + 1.6) * 4;
     values.reactor = 32 + Math.sin(evTicker * 0.85) * 6;
     values.turbo = 7 + Math.sin(evTicker * 1.7 + 1.3) * 2;
+    values.sync = 18 + Math.sin(evTicker * 0.6 + .8) * 4;
 
     render();
     animFrame = requestAnimationFrame(loop);
@@ -137,27 +177,101 @@ function startEvAmbient(){
   loop();
 }
 
-function engineIgnitionSequence(){
-  cancelAnimationFrame(animFrame);
-  stopTurboInterval();
+function holdEngineAmbient(){
+  stopLoops();
 
-  let frame = 0;
-  const duration = 210;
+  const loop = () => {
+    if(state !== "engine") return;
+
+    evTicker += 0.045;
+
+    values.power = 71 + Math.sin(evTicker * 0.9) * 5;
+    values.boost = 23 + Math.sin(evTicker * 1.5) * 3;
+    values.surge = 46 + Math.sin(evTicker * 1.2) * 4;
+    values.thrust = 35 + Math.sin(evTicker * 1.1 + 0.6) * 3;
+    values.heat = 33 + Math.sin(evTicker * 0.8 + 0.9) * 3;
+    values.output = 58 + Math.sin(evTicker * 1.0 + 0.4) * 5;
+    values.reactor = 67 + Math.sin(evTicker * 1.1) * 5;
+    values.turbo = 18 + Math.sin(evTicker * 1.8) * 2;
+    values.sync = 62 + Math.sin(evTicker * 1.2 + .3) * 6;
+
+    render();
+    animFrame = requestAnimationFrame(loop);
+  };
+
+  loop();
+}
+
+function holdTurboAmbient(){
+  stopLoops();
+
+  const loop = () => {
+    if(state !== "turbo") return;
+
+    evTicker += 0.085;
+
+    values.power = 96 + Math.sin(evTicker * 1.9) * 4;
+    values.boost = 92 + Math.sin(evTicker * 2.2 + 0.4) * 7;
+    values.surge = 95 + Math.sin(evTicker * 2.3 + 1) * 5;
+    values.thrust = 91 + Math.sin(evTicker * 1.8 + 2) * 7;
+    values.heat = 84 + Math.sin(evTicker * 1.5 + 0.8) * 5;
+    values.output = 97 + Math.sin(evTicker * 1.7 + 1.2) * 3;
+    values.reactor = 98 + Math.sin(evTicker * 2.1) * 2;
+    values.turbo = 97 + Math.sin(evTicker * 2.8 + 0.2) * 3;
+    values.sync = 94 + Math.sin(evTicker * 2 + .2) * 4;
+
+    render();
+    animFrame = requestAnimationFrame(loop);
+  };
+
+  loop();
+}
+
+function animateTo(target, duration = 420, callback){
+  const start = { ...values };
+  const startTime = performance.now();
+
+  function frame(now){
+    const p = clamp((now - startTime) / duration, 0, 1);
+    const e = 1 - Math.pow(1 - p, 3);
+
+    Object.keys(target).forEach(key => {
+      values[key] = start[key] + (target[key] - start[key]) * e;
+    });
+
+    render();
+
+    if(p < 1){
+      requestAnimationFrame(frame);
+    } else {
+      callback?.();
+    }
+  }
+
+  requestAnimationFrame(frame);
+}
+
+function engineIgnitionSequence(){
+  stopLoops();
+  switchState("engine");
 
   setTexts(
     "IGNITION",
     "ignition sequence",
     "IGN",
     "STAGE I",
+    "WAKE",
     "combustion wakeup",
     "pressure rising"
   );
 
   shockwave(3, 80);
 
-  const loop = () => {
-    frame++;
+  let frame = 0;
+  const duration = 210;
 
+  function loop(){
+    frame++;
     const t = frame / duration;
 
     if(t < 0.23){
@@ -166,16 +280,20 @@ function engineIgnitionSequence(){
       values.surge = 22 + t * 140;
       values.thrust = 14 + t * 120;
       values.heat = 8 + t * 90;
+      values.output = 31 + t * 180;
       values.reactor = 34 + t * 180;
       values.turbo = 8 + t * 40;
+      values.sync = 19 + t * 110;
     } else if(t < 0.42){
       values.power = 95 - (t - 0.23) * 120;
       values.boost = 30 - (t - 0.23) * 18;
       values.surge = 54 - (t - 0.23) * 12;
       values.thrust = 42 - (t - 0.23) * 10;
       values.heat = 28 + (t - 0.23) * 35;
+      values.output = 68 - (t - 0.23) * 16;
       values.reactor = 76 - (t - 0.23) * 14;
       values.turbo = 14 + (t - 0.23) * 8;
+      values.sync = 56 + (t - 0.23) * 26;
     } else {
       const settle = (t - 0.42) / 0.58;
       values.power = 72 + Math.sin(settle * 10) * 3;
@@ -183,18 +301,16 @@ function engineIgnitionSequence(){
       values.surge = 46 + Math.sin(settle * 6) * 3;
       values.thrust = 36 + Math.sin(settle * 7) * 2;
       values.heat = 32 + Math.sin(settle * 5) * 2;
+      values.output = 58 + Math.sin(settle * 6) * 3;
       values.reactor = 68 + Math.sin(settle * 6) * 3;
       values.turbo = 18 + Math.sin(settle * 8) * 1.5;
+      values.sync = 63 + Math.sin(settle * 5) * 4;
     }
 
     render();
 
-    if(frame === 36){
-      shockwave(2, 0);
-    }
-    if(frame === 82){
-      shockwave(2, 0);
-    }
+    if(frame === 36) shockwave(2, 0);
+    if(frame === 82) shockwave(2, 0);
 
     if(frame < duration){
       animFrame = requestAnimationFrame(loop);
@@ -204,107 +320,45 @@ function engineIgnitionSequence(){
         "hybrid beast active",
         "LIVE",
         "STAGE II",
+        "ARMED",
         "reactor awake",
         "boost armed"
       );
       holdEngineAmbient();
     }
-  };
-
-  loop();
-}
-
-function holdEngineAmbient(){
-  let tick = 0;
-  cancelAnimationFrame(animFrame);
-
-  const loop = () => {
-    if(state !== "engine") return;
-    tick += 0.04;
-
-    values.power = 71 + Math.sin(tick * 0.9) * 5;
-    values.boost = 23 + Math.sin(tick * 1.5) * 3;
-    values.surge = 46 + Math.sin(tick * 1.2) * 4;
-    values.thrust = 35 + Math.sin(tick * 1.1 + 0.6) * 3;
-    values.heat = 33 + Math.sin(tick * 0.8 + 0.9) * 3;
-    values.reactor = 67 + Math.sin(tick * 1.1) * 5;
-    values.turbo = 18 + Math.sin(tick * 1.8) * 2;
-
-    render();
-    animFrame = requestAnimationFrame(loop);
-  };
+  }
 
   loop();
 }
 
 function turboSequence(){
-  cancelAnimationFrame(animFrame);
-  stopTurboInterval();
+  stopLoops();
+  switchState("turbo");
 
   setTexts(
     "TURBO BEAST",
     "boost engaged",
     "RAGE",
     "STAGE III",
+    "ATTACK",
     "reactor overdrive",
     "pressure unlocked"
   );
 
-  switchState("turbo");
   shockwave(5, 0);
   app.classList.add("turboShake");
   setTimeout(() => app.classList.remove("turboShake"), 1200);
 
-  try{
-    turboSound.currentTime = 0;
-    turboSound.play();
-  }catch(e){}
+  safePlay(turboSound);
 
   const stages = [
-    { label: "STAGE III", power: 84, boost: 48, surge: 58, thrust: 46, heat: 38, reactor: 74, turbo: 42 },
-    { label: "STAGE IV",  power: 96, boost: 66, surge: 74, thrust: 63, heat: 52, reactor: 82, turbo: 58 },
-    { label: "STAGE V",   power: 100, boost: 82, surge: 89, thrust: 80, heat: 68, reactor: 92, turbo: 74 },
-    { label: "BEAST MAX", power: 100, boost: 100, surge: 100, thrust: 100, heat: 86, reactor: 100, turbo: 100 }
+    { label: "STAGE III", peak: "RISE",  power: 84, boost: 48, surge: 58, thrust: 46, heat: 38, output: 71, reactor: 74, turbo: 42, sync: 73 },
+    { label: "STAGE IV",  peak: "CLAW",  power: 96, boost: 66, surge: 74, thrust: 63, heat: 52, output: 83, reactor: 82, turbo: 58, sync: 84 },
+    { label: "STAGE V",   peak: "RUSH",  power: 100, boost: 82, surge: 89, thrust: 80, heat: 68, output: 92, reactor: 92, turbo: 74, sync: 92 },
+    { label: "BEAST MAX", peak: "MAX",   power: 100, boost: 100, surge: 100, thrust: 100, heat: 86, output: 100, reactor: 100, turbo: 100, sync: 100 }
   ];
 
   let idx = 0;
-
-  function animateTo(target, duration = 420, callback){
-    const start = {
-      power: values.power,
-      boost: values.boost,
-      surge: values.surge,
-      thrust: values.thrust,
-      heat: values.heat,
-      reactor: values.reactor,
-      turbo: values.turbo
-    };
-
-    const startTime = performance.now();
-
-    function frame(now){
-      const p = clamp((now - startTime) / duration, 0, 1);
-      const e = 1 - Math.pow(1 - p, 3);
-
-      values.power = start.power + (target.power - start.power) * e;
-      values.boost = start.boost + (target.boost - start.boost) * e;
-      values.surge = start.surge + (target.surge - start.surge) * e;
-      values.thrust = start.thrust + (target.thrust - start.thrust) * e;
-      values.heat = start.heat + (target.heat - start.heat) * e;
-      values.reactor = start.reactor + (target.reactor - start.reactor) * e;
-      values.turbo = start.turbo + (target.turbo - start.turbo) * e;
-
-      render();
-
-      if(p < 1){
-        requestAnimationFrame(frame);
-      } else {
-        callback?.();
-      }
-    }
-
-    requestAnimationFrame(frame);
-  }
 
   function nextStage(){
     if(idx >= stages.length){
@@ -313,6 +367,7 @@ function turboSequence(){
         "monster output stable",
         "MAX",
         "BEAST MAX",
+        "MAX",
         "full reactor force",
         "all pressure released"
       );
@@ -322,19 +377,21 @@ function turboSequence(){
 
     const target = stages[idx];
     stageValue.textContent = target.label;
+    peakValue.textContent = target.peak;
     shockwave(2, 0);
 
     animateTo(target, 460, () => {
       if(idx < stages.length - 1){
-        // fake gear dip / stage kick
         const dip = {
           power: target.power - 10,
           boost: target.boost - 7,
           surge: target.surge - 9,
           thrust: target.thrust - 8,
           heat: target.heat + 3,
+          output: target.output - 7,
           reactor: target.reactor - 6,
-          turbo: target.turbo - 5
+          turbo: target.turbo - 5,
+          sync: target.sync - 6
         };
 
         animateTo(dip, 150, () => {
@@ -351,58 +408,53 @@ function turboSequence(){
   nextStage();
 }
 
-function holdTurboAmbient(){
-  let tick = 0;
-  cancelAnimationFrame(animFrame);
+function resetToEv(){
+  stopLoops();
+  switchState("ev");
 
-  const loop = () => {
-    if(state !== "turbo") return;
-    tick += 0.08;
+  setTexts(
+    "EV BEAST",
+    "returning to electric core",
+    "EV",
+    "E-DRIVE",
+    "CALM",
+    "electric pulse stable",
+    "standby pressure"
+  );
 
-    values.power = 96 + Math.sin(tick * 1.9) * 4;
-    values.boost = 92 + Math.sin(tick * 2.2 + 0.4) * 7;
-    values.surge = 95 + Math.sin(tick * 2.3 + 1) * 5;
-    values.thrust = 91 + Math.sin(tick * 1.8 + 2) * 7;
-    values.heat = 84 + Math.sin(tick * 1.5 + 0.8) * 5;
-    values.reactor = 98 + Math.sin(tick * 2.1) * 2;
-    values.turbo = 97 + Math.sin(tick * 2.8 + 0.2) * 3;
+  shockwave(2, 0);
 
-    render();
-    animFrame = requestAnimationFrame(loop);
-  };
-
-  loop();
+  animateTo(
+    {
+      power: 38,
+      boost: 12,
+      surge: 22,
+      thrust: 14,
+      heat: 8,
+      output: 31,
+      reactor: 34,
+      turbo: 8,
+      sync: 19
+    },
+    700,
+    () => startEvAmbient()
+  );
 }
+
+evBtn.addEventListener("click", () => {
+  resetToEv();
+});
 
 startBtn.addEventListener("click", () => {
   if(state !== "ev") return;
-
-  try{
-    startSound.currentTime = 0;
-    startSound.play();
-  }catch(e){}
-
-  switchState("engine");
+  safePlay(startSound);
   engineIgnitionSequence();
 });
 
 turboBtn.addEventListener("click", () => {
-  if(state === "ev"){
-    // Gör inget om man inte startat ännu
-    return;
-  }
+  if(state === "ev") return;
   turboSequence();
 });
-
-// initial state
-setTexts(
-  "EV BEAST",
-  "core online",
-  "EV",
-  "E-DRIVE",
-  "electric pulse stable",
-  "standby pressure"
-);
 
 render();
 startEvAmbient();
