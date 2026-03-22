@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MyEngine V3</title>
+  <title>MyEngine V4</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -11,7 +11,7 @@
     <div class="bgGrid"></div>
     <div class="bgGlow bgGlowA"></div>
     <div class="bgGlow bgGlowB"></div>
-    <div class="speedLines" id="speedLines"></div>
+    <div class="speedLines"></div>
     <div class="noise"></div>
 
     <header class="topbar">
@@ -21,9 +21,9 @@
 
     <main class="dashboard">
       <section class="side sideLeft">
-        <div class="ringCard bigCard">
+        <div class="ringCard">
           <div class="ringTitle">POWER ARC</div>
-          <div class="ring ringPower" id="powerRing">
+          <div class="ring" id="powerRing">
             <div class="ringHalo"></div>
             <div class="ringInner">
               <div class="ringValue" id="powerValue">38</div>
@@ -50,7 +50,7 @@
           </div>
         </div>
 
-        <div class="coreShell" id="coreShell">
+        <div class="coreShell">
           <div class="orbit orbit1"></div>
           <div class="orbit orbit2"></div>
           <div class="orbit orbit3"></div>
@@ -75,34 +75,40 @@
           </div>
         </div>
 
-        <div class="miniMeterRow">
-          <div class="miniMeter">
-            <div class="miniLabel">SURGE</div>
-            <div class="miniTrack"><div class="miniFill" id="surgeBar"></div></div>
-            <div class="miniVal" id="surgeValue">22</div>
+        <div class="miniDialRow">
+          <div class="miniDial" id="surgeDial">
+            <div class="miniDialTitle">SURGE</div>
+            <div class="miniDialRing">
+              <div class="miniDialInner">
+                <div class="miniDialVal" id="surgeValue">22</div>
+              </div>
+            </div>
           </div>
-          <div class="miniMeter">
-            <div class="miniLabel">THRUST</div>
-            <div class="miniTrack"><div class="miniFill" id="thrustBar"></div></div>
-            <div class="miniVal" id="thrustValue">14</div>
+
+          <div class="miniDial" id="thrustDial">
+            <div class="miniDialTitle">THRUST</div>
+            <div class="miniDialRing">
+              <div class="miniDialInner">
+                <div class="miniDialVal" id="thrustValue">14</div>
+              </div>
+            </div>
           </div>
-          <div class="miniMeter">
-            <div class="miniLabel">HEAT</div>
-            <div class="miniTrack"><div class="miniFill" id="heatBar"></div></div>
-            <div class="miniVal" id="heatValue">08</div>
-          </div>
-          <div class="miniMeter">
-            <div class="miniLabel">OUTPUT</div>
-            <div class="miniTrack"><div class="miniFill" id="outputBar"></div></div>
-            <div class="miniVal" id="outputValue">31</div>
+
+          <div class="miniDial" id="heatDial">
+            <div class="miniDialTitle">HEAT</div>
+            <div class="miniDialRing">
+              <div class="miniDialInner">
+                <div class="miniDialVal" id="heatValue">08</div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       <section class="side sideRight">
-        <div class="ringCard bigCard">
+        <div class="ringCard">
           <div class="ringTitle">BOOST ARC</div>
-          <div class="ring ringBoost" id="boostRing">
+          <div class="ring" id="boostRing">
             <div class="ringHalo"></div>
             <div class="ringInner">
               <div class="ringValue" id="boostValue">12</div>
