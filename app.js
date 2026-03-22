@@ -13,15 +13,13 @@ const boostRing = document.getElementById("boostRing");
 const powerValue = document.getElementById("powerValue");
 const boostValue = document.getElementById("boostValue");
 
+const surgeDial = document.getElementById("surgeDial");
+const thrustDial = document.getElementById("thrustDial");
+const heatDial = document.getElementById("heatDial");
+
 const surgeValue = document.getElementById("surgeValue");
 const thrustValue = document.getElementById("thrustValue");
 const heatValue = document.getElementById("heatValue");
-const outputValue = document.getElementById("outputValue");
-
-const surgeBar = document.getElementById("surgeBar");
-const thrustBar = document.getElementById("thrustBar");
-const heatBar = document.getElementById("heatBar");
-const outputBar = document.getElementById("outputBar");
 
 const powerCaption = document.getElementById("powerCaption");
 const boostCaption = document.getElementById("boostCaption");
@@ -47,7 +45,7 @@ turboSound.preload = "auto";
 
 let state = "ev";
 let animFrame = null;
-let evTicker = 0;
+let ticker = 0;
 
 const values = {
   power: 38,
@@ -55,7 +53,6 @@ const values = {
   surge: 22,
   thrust: 14,
   heat: 8,
-  output: 31,
   reactor: 34,
   turbo: 8,
   sync: 19
@@ -67,6 +64,11 @@ function clamp(num, min, max){
 
 function setRing(el, pct){
   el.style.setProperty("--pct", clamp(pct, 0, 100));
+}
+
+function setMiniDial(el, pct){
+  const ring = el.querySelector(".miniDialRing");
+  ring.style.setProperty("--pct", clamp(pct, 0, 100));
 }
 
 function setBar(el, pct){
@@ -84,7 +86,6 @@ function render(){
   surgeValue.textContent = pad2(values.surge);
   thrustValue.textContent = pad2(values.thrust);
   heatValue.textContent = pad2(values.heat);
-  outputValue.textContent = pad2(values.output);
 
   reactorPct.textContent = `${Math.round(values.reactor)}%`;
   turboPct.textContent = `${pad2(values.turbo)}%`;
@@ -93,10 +94,9 @@ function render(){
   setRing(powerRing, values.power);
   setRing(boostRing, values.boost);
 
-  setBar(surgeBar, values.surge);
-  setBar(thrustBar, values.thrust);
-  setBar(heatBar, values.heat);
-  setBar(outputBar, values.output);
+  setMiniDial(surgeDial, values.surge);
+  setMiniDial(thrustDial, values.thrust);
+  setMiniDial(heatDial, values.heat);
 
   setBar(reactorBar, values.reactor);
   setBar(turboBar, values.turbo);
@@ -105,17 +105,6 @@ function render(){
 
 function stopLoops(){
   cancelAnimationFrame(animFrame);
-}
-
-function shockwave(count = 1, delay = 0){
-  for(let i = 0; i < count; i++){
-    setTimeout(() => {
-      const wave = document.createElement("div");
-      wave.className = "shockWave";
-      shockContainer.appendChild(wave);
-      setTimeout(() => wave.remove(), 1100);
-    }, delay + i * 120);
-  }
 }
 
 function switchState(next){
@@ -142,89 +131,15 @@ function safePlay(audio){
   }catch(e){}
 }
 
-function startEvAmbient(){
-  stopLoops();
-
-  setTexts(
-    "EV BEAST",
-    "core online",
-    "EV",
-    "E-DRIVE",
-    "CALM",
-    "electric pulse stable",
-    "standby pressure"
-  );
-
-  const loop = () => {
-    if(state !== "ev") return;
-
-    evTicker += 0.02;
-
-    values.power = 36 + Math.sin(evTicker) * 7 + Math.sin(evTicker * 0.5) * 2;
-    values.boost = 10 + Math.sin(evTicker * 1.5 + 1.1) * 4;
-    values.surge = 20 + Math.sin(evTicker * 1.1) * 5;
-    values.thrust = 13 + Math.sin(evTicker * 0.8 + 0.5) * 3;
-    values.heat = 7 + Math.sin(evTicker * 0.7 + 2) * 2;
-    values.output = 28 + Math.sin(evTicker * 0.9 + 1.6) * 4;
-    values.reactor = 32 + Math.sin(evTicker * 0.85) * 6;
-    values.turbo = 7 + Math.sin(evTicker * 1.7 + 1.3) * 2;
-    values.sync = 18 + Math.sin(evTicker * 0.6 + .8) * 4;
-
-    render();
-    animFrame = requestAnimationFrame(loop);
-  };
-
-  loop();
-}
-
-function holdEngineAmbient(){
-  stopLoops();
-
-  const loop = () => {
-    if(state !== "engine") return;
-
-    evTicker += 0.045;
-
-    values.power = 71 + Math.sin(evTicker * 0.9) * 5;
-    values.boost = 23 + Math.sin(evTicker * 1.5) * 3;
-    values.surge = 46 + Math.sin(evTicker * 1.2) * 4;
-    values.thrust = 35 + Math.sin(evTicker * 1.1 + 0.6) * 3;
-    values.heat = 33 + Math.sin(evTicker * 0.8 + 0.9) * 3;
-    values.output = 58 + Math.sin(evTicker * 1.0 + 0.4) * 5;
-    values.reactor = 67 + Math.sin(evTicker * 1.1) * 5;
-    values.turbo = 18 + Math.sin(evTicker * 1.8) * 2;
-    values.sync = 62 + Math.sin(evTicker * 1.2 + .3) * 6;
-
-    render();
-    animFrame = requestAnimationFrame(loop);
-  };
-
-  loop();
-}
-
-function holdTurboAmbient(){
-  stopLoops();
-
-  const loop = () => {
-    if(state !== "turbo") return;
-
-    evTicker += 0.085;
-
-    values.power = 96 + Math.sin(evTicker * 1.9) * 4;
-    values.boost = 92 + Math.sin(evTicker * 2.2 + 0.4) * 7;
-    values.surge = 95 + Math.sin(evTicker * 2.3 + 1) * 5;
-    values.thrust = 91 + Math.sin(evTicker * 1.8 + 2) * 7;
-    values.heat = 84 + Math.sin(evTicker * 1.5 + 0.8) * 5;
-    values.output = 97 + Math.sin(evTicker * 1.7 + 1.2) * 3;
-    values.reactor = 98 + Math.sin(evTicker * 2.1) * 2;
-    values.turbo = 97 + Math.sin(evTicker * 2.8 + 0.2) * 3;
-    values.sync = 94 + Math.sin(evTicker * 2 + .2) * 4;
-
-    render();
-    animFrame = requestAnimationFrame(loop);
-  };
-
-  loop();
+function shockwave(count = 1, delay = 0){
+  for(let i = 0; i < count; i++){
+    setTimeout(() => {
+      const wave = document.createElement("div");
+      wave.className = "shockWave";
+      shockContainer.appendChild(wave);
+      setTimeout(() => wave.remove(), 1100);
+    }, delay + i * 120);
+  }
 }
 
 function animateTo(target, duration = 420, callback){
@@ -249,6 +164,88 @@ function animateTo(target, duration = 420, callback){
   }
 
   requestAnimationFrame(frame);
+}
+
+function startEvAmbient(){
+  stopLoops();
+
+  setTexts(
+    "EV BEAST",
+    "core online",
+    "EV",
+    "E-DRIVE",
+    "CALM",
+    "electric pulse stable",
+    "standby pressure"
+  );
+
+  const loop = () => {
+    if(state !== "ev") return;
+
+    ticker += 0.02;
+
+    values.power = 36 + Math.sin(ticker) * 7 + Math.sin(ticker * 0.5) * 2;
+    values.boost = 10 + Math.sin(ticker * 1.5 + 1.1) * 4;
+    values.surge = 20 + Math.sin(ticker * 1.1) * 5;
+    values.thrust = 13 + Math.sin(ticker * 0.8 + 0.5) * 3;
+    values.heat = 7 + Math.sin(ticker * 0.7 + 2) * 2;
+    values.reactor = 32 + Math.sin(ticker * 0.85) * 6;
+    values.turbo = 7 + Math.sin(ticker * 1.7 + 1.3) * 2;
+    values.sync = 18 + Math.sin(ticker * 0.6 + 0.8) * 4;
+
+    render();
+    animFrame = requestAnimationFrame(loop);
+  };
+
+  loop();
+}
+
+function holdEngineAmbient(){
+  stopLoops();
+
+  const loop = () => {
+    if(state !== "engine") return;
+
+    ticker += 0.045;
+
+    values.power = 71 + Math.sin(ticker * 0.9) * 5;
+    values.boost = 23 + Math.sin(ticker * 1.5) * 3;
+    values.surge = 46 + Math.sin(ticker * 1.2) * 4;
+    values.thrust = 35 + Math.sin(ticker * 1.1 + 0.6) * 3;
+    values.heat = 33 + Math.sin(ticker * 0.8 + 0.9) * 3;
+    values.reactor = 67 + Math.sin(ticker * 1.1) * 5;
+    values.turbo = 18 + Math.sin(ticker * 1.8) * 2;
+    values.sync = 62 + Math.sin(ticker * 1.2 + 0.3) * 6;
+
+    render();
+    animFrame = requestAnimationFrame(loop);
+  };
+
+  loop();
+}
+
+function holdTurboAmbient(){
+  stopLoops();
+
+  const loop = () => {
+    if(state !== "turbo") return;
+
+    ticker += 0.085;
+
+    values.power = 96 + Math.sin(ticker * 1.9) * 4;
+    values.boost = 92 + Math.sin(ticker * 2.2 + 0.4) * 7;
+    values.surge = 95 + Math.sin(ticker * 2.3 + 1) * 5;
+    values.thrust = 91 + Math.sin(ticker * 1.8 + 2) * 7;
+    values.heat = 84 + Math.sin(ticker * 1.5 + 0.8) * 5;
+    values.reactor = 98 + Math.sin(ticker * 2.1) * 2;
+    values.turbo = 97 + Math.sin(ticker * 2.8 + 0.2) * 3;
+    values.sync = 94 + Math.sin(ticker * 2 + 0.2) * 4;
+
+    render();
+    animFrame = requestAnimationFrame(loop);
+  };
+
+  loop();
 }
 
 function engineIgnitionSequence(){
@@ -280,7 +277,6 @@ function engineIgnitionSequence(){
       values.surge = 22 + t * 140;
       values.thrust = 14 + t * 120;
       values.heat = 8 + t * 90;
-      values.output = 31 + t * 180;
       values.reactor = 34 + t * 180;
       values.turbo = 8 + t * 40;
       values.sync = 19 + t * 110;
@@ -290,7 +286,6 @@ function engineIgnitionSequence(){
       values.surge = 54 - (t - 0.23) * 12;
       values.thrust = 42 - (t - 0.23) * 10;
       values.heat = 28 + (t - 0.23) * 35;
-      values.output = 68 - (t - 0.23) * 16;
       values.reactor = 76 - (t - 0.23) * 14;
       values.turbo = 14 + (t - 0.23) * 8;
       values.sync = 56 + (t - 0.23) * 26;
@@ -301,7 +296,6 @@ function engineIgnitionSequence(){
       values.surge = 46 + Math.sin(settle * 6) * 3;
       values.thrust = 36 + Math.sin(settle * 7) * 2;
       values.heat = 32 + Math.sin(settle * 5) * 2;
-      values.output = 58 + Math.sin(settle * 6) * 3;
       values.reactor = 68 + Math.sin(settle * 6) * 3;
       values.turbo = 18 + Math.sin(settle * 8) * 1.5;
       values.sync = 63 + Math.sin(settle * 5) * 4;
@@ -352,10 +346,10 @@ function turboSequence(){
   safePlay(turboSound);
 
   const stages = [
-    { label: "STAGE III", peak: "RISE",  power: 84, boost: 48, surge: 58, thrust: 46, heat: 38, output: 71, reactor: 74, turbo: 42, sync: 73 },
-    { label: "STAGE IV",  peak: "CLAW",  power: 96, boost: 66, surge: 74, thrust: 63, heat: 52, output: 83, reactor: 82, turbo: 58, sync: 84 },
-    { label: "STAGE V",   peak: "RUSH",  power: 100, boost: 82, surge: 89, thrust: 80, heat: 68, output: 92, reactor: 92, turbo: 74, sync: 92 },
-    { label: "BEAST MAX", peak: "MAX",   power: 100, boost: 100, surge: 100, thrust: 100, heat: 86, output: 100, reactor: 100, turbo: 100, sync: 100 }
+    { label: "STAGE III", peak: "RISE",  power: 84, boost: 48, surge: 58, thrust: 46, heat: 38, reactor: 74, turbo: 42, sync: 73 },
+    { label: "STAGE IV",  peak: "CLAW",  power: 96, boost: 66, surge: 74, thrust: 63, heat: 52, reactor: 82, turbo: 58, sync: 84 },
+    { label: "STAGE V",   peak: "RUSH",  power: 100, boost: 82, surge: 89, thrust: 80, heat: 68, reactor: 92, turbo: 74, sync: 92 },
+    { label: "BEAST MAX", peak: "MAX",   power: 100, boost: 100, surge: 100, thrust: 100, heat: 86, reactor: 100, turbo: 100, sync: 100 }
   ];
 
   let idx = 0;
@@ -388,7 +382,6 @@ function turboSequence(){
           surge: target.surge - 9,
           thrust: target.thrust - 8,
           heat: target.heat + 3,
-          output: target.output - 7,
           reactor: target.reactor - 6,
           turbo: target.turbo - 5,
           sync: target.sync - 6
@@ -431,7 +424,6 @@ function resetToEv(){
       surge: 22,
       thrust: 14,
       heat: 8,
-      output: 31,
       reactor: 34,
       turbo: 8,
       sync: 19
@@ -441,9 +433,7 @@ function resetToEv(){
   );
 }
 
-evBtn.addEventListener("click", () => {
-  resetToEv();
-});
+evBtn.addEventListener("click", resetToEv);
 
 startBtn.addEventListener("click", () => {
   if(state !== "ev") return;
