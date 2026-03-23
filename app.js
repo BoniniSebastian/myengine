@@ -16,10 +16,12 @@ const boostValue = document.getElementById("boostValue");
 const surgeDial = document.getElementById("surgeDial");
 const thrustDial = document.getElementById("thrustDial");
 const heatDial = document.getElementById("heatDial");
+const fluxDial = document.getElementById("fluxDial");
 
 const surgeValue = document.getElementById("surgeValue");
 const thrustValue = document.getElementById("thrustValue");
 const heatValue = document.getElementById("heatValue");
+const fluxValue = document.getElementById("fluxValue");
 
 const powerCaption = document.getElementById("powerCaption");
 const boostCaption = document.getElementById("boostCaption");
@@ -33,6 +35,7 @@ const turboPct = document.getElementById("turboPct");
 const syncPct = document.getElementById("syncPct");
 
 const shockContainer = document.getElementById("shockContainer");
+const flashLayer = document.getElementById("flashLayer");
 
 const evBtn = document.getElementById("evBtn");
 const startBtn = document.getElementById("startBtn");
@@ -53,6 +56,7 @@ const values = {
   surge: 22,
   thrust: 14,
   heat: 8,
+  flux: 16,
   reactor: 34,
   turbo: 8,
   sync: 19
@@ -79,6 +83,11 @@ function pad2(n){
   return String(Math.round(n)).padStart(2, "0");
 }
 
+function pulseFlash(ms = 160){
+  app.classList.add("flash");
+  setTimeout(() => app.classList.remove("flash"), ms);
+}
+
 function render(){
   powerValue.textContent = Math.round(values.power);
   boostValue.textContent = Math.round(values.boost);
@@ -86,6 +95,7 @@ function render(){
   surgeValue.textContent = pad2(values.surge);
   thrustValue.textContent = pad2(values.thrust);
   heatValue.textContent = pad2(values.heat);
+  fluxValue.textContent = pad2(values.flux);
 
   reactorPct.textContent = `${Math.round(values.reactor)}%`;
   turboPct.textContent = `${pad2(values.turbo)}%`;
@@ -97,6 +107,7 @@ function render(){
   setDial(surgeDial.querySelector(".miniDialRing"), values.surge);
   setDial(thrustDial.querySelector(".miniDialRing"), values.thrust);
   setDial(heatDial.querySelector(".miniDialRing"), values.heat);
+  setDial(fluxDial.querySelector(".miniDialRing"), values.flux);
 
   setArcStrength(leftArc, values.power);
   setArcStrength(rightArc, values.boost);
@@ -184,14 +195,15 @@ function startEvAmbient(){
 
     ticker += 0.02;
 
-    values.power = 34 + Math.sin(ticker) * 7 + Math.sin(ticker * 0.5) * 2;
-    values.boost = 8 + Math.sin(ticker * 1.5 + 1.1) * 3;
-    values.surge = 18 + Math.sin(ticker * 1.1) * 4;
-    values.thrust = 12 + Math.sin(ticker * 0.8 + 0.5) * 3;
+    values.power = 38 + Math.sin(ticker) * 8 + Math.sin(ticker * 0.5) * 2;
+    values.boost = 10 + Math.sin(ticker * 1.5 + 1.1) * 4;
+    values.surge = 20 + Math.sin(ticker * 1.1) * 5;
+    values.thrust = 13 + Math.sin(ticker * 0.8 + 0.5) * 3;
     values.heat = 7 + Math.sin(ticker * 0.7 + 2) * 2;
-    values.reactor = 30 + Math.sin(ticker * 0.85) * 5;
-    values.turbo = 6 + Math.sin(ticker * 1.7 + 1.3) * 2;
-    values.sync = 16 + Math.sin(ticker * 0.6 + 0.8) * 4;
+    values.flux = 16 + Math.sin(ticker * 1.35 + 1.4) * 4;
+    values.reactor = 32 + Math.sin(ticker * 0.85) * 6;
+    values.turbo = 7 + Math.sin(ticker * 1.7 + 1.3) * 2;
+    values.sync = 18 + Math.sin(ticker * 0.6 + 0.8) * 4;
 
     render();
     animFrame = requestAnimationFrame(loop);
@@ -208,14 +220,15 @@ function holdEngineAmbient(){
 
     ticker += 0.045;
 
-    values.power = 72 + Math.sin(ticker * 0.9) * 5;
-    values.boost = 24 + Math.sin(ticker * 1.5) * 3;
-    values.surge = 46 + Math.sin(ticker * 1.2) * 4;
-    values.thrust = 35 + Math.sin(ticker * 1.1 + 0.6) * 3;
-    values.heat = 33 + Math.sin(ticker * 0.8 + 0.9) * 3;
-    values.reactor = 68 + Math.sin(ticker * 1.1) * 5;
-    values.turbo = 18 + Math.sin(ticker * 1.8) * 2;
-    values.sync = 62 + Math.sin(ticker * 1.2 + 0.3) * 6;
+    values.power = 74 + Math.sin(ticker * 0.9) * 5;
+    values.boost = 26 + Math.sin(ticker * 1.5) * 4;
+    values.surge = 48 + Math.sin(ticker * 1.2) * 4;
+    values.thrust = 37 + Math.sin(ticker * 1.1 + 0.6) * 3;
+    values.heat = 34 + Math.sin(ticker * 0.8 + 0.9) * 3;
+    values.flux = 42 + Math.sin(ticker * 1.6 + 0.8) * 4;
+    values.reactor = 70 + Math.sin(ticker * 1.1) * 5;
+    values.turbo = 20 + Math.sin(ticker * 1.8) * 2;
+    values.sync = 64 + Math.sin(ticker * 1.2 + 0.3) * 6;
 
     render();
     animFrame = requestAnimationFrame(loop);
@@ -237,6 +250,7 @@ function holdTurboAmbient(){
     values.surge = 95 + Math.sin(ticker * 2.3 + 1) * 5;
     values.thrust = 91 + Math.sin(ticker * 1.8 + 2) * 7;
     values.heat = 84 + Math.sin(ticker * 1.5 + 0.8) * 5;
+    values.flux = 88 + Math.sin(ticker * 2.0 + 1.7) * 6;
     values.reactor = 98 + Math.sin(ticker * 2.1) * 2;
     values.turbo = 97 + Math.sin(ticker * 2.8 + 0.2) * 3;
     values.sync = 94 + Math.sin(ticker * 2 + 0.2) * 4;
@@ -251,6 +265,7 @@ function holdTurboAmbient(){
 function engineIgnitionSequence(){
   stopLoops();
   switchState("engine");
+  pulseFlash(220);
 
   setTexts(
     "IGNITION",
@@ -276,6 +291,7 @@ function engineIgnitionSequence(){
       values.surge = 22 + t * 140;
       values.thrust = 14 + t * 120;
       values.heat = 8 + t * 90;
+      values.flux = 16 + t * 120;
       values.reactor = 34 + t * 180;
       values.turbo = 8 + t * 40;
       values.sync = 19 + t * 110;
@@ -285,6 +301,7 @@ function engineIgnitionSequence(){
       values.surge = 54 - (t - 0.23) * 12;
       values.thrust = 42 - (t - 0.23) * 10;
       values.heat = 28 + (t - 0.23) * 35;
+      values.flux = 58 - (t - 0.23) * 10;
       values.reactor = 76 - (t - 0.23) * 14;
       values.turbo = 14 + (t - 0.23) * 8;
       values.sync = 56 + (t - 0.23) * 26;
@@ -295,6 +312,7 @@ function engineIgnitionSequence(){
       values.surge = 46 + Math.sin(settle * 6) * 3;
       values.thrust = 36 + Math.sin(settle * 7) * 2;
       values.heat = 32 + Math.sin(settle * 5) * 2;
+      values.flux = 40 + Math.sin(settle * 7) * 3;
       values.reactor = 68 + Math.sin(settle * 6) * 3;
       values.turbo = 18 + Math.sin(settle * 8) * 1.5;
       values.sync = 63 + Math.sin(settle * 5) * 4;
@@ -303,7 +321,10 @@ function engineIgnitionSequence(){
     render();
 
     if(frame === 36) shockwave(2, 0);
-    if(frame === 82) shockwave(2, 0);
+    if(frame === 82) {
+      shockwave(2, 0);
+      pulseFlash(140);
+    }
 
     if(frame < duration){
       animFrame = requestAnimationFrame(loop);
@@ -326,6 +347,7 @@ function engineIgnitionSequence(){
 function turboSequence(){
   stopLoops();
   switchState("turbo");
+  pulseFlash(260);
 
   setTexts(
     "TURBO BEAST",
@@ -343,10 +365,10 @@ function turboSequence(){
   safePlay(turboSound);
 
   const stages = [
-    { label: "STAGE III", power: 84, boost: 48, surge: 58, thrust: 46, heat: 38, reactor: 74, turbo: 42, sync: 73 },
-    { label: "STAGE IV",  power: 96, boost: 66, surge: 74, thrust: 63, heat: 52, reactor: 82, turbo: 58, sync: 84 },
-    { label: "STAGE V",   power: 100, boost: 82, surge: 89, thrust: 80, heat: 68, reactor: 92, turbo: 74, sync: 92 },
-    { label: "BEAST MAX", power: 100, boost: 100, surge: 100, thrust: 100, heat: 86, reactor: 100, turbo: 100, sync: 100 }
+    { label: "STAGE III", power: 84, boost: 48, surge: 58, thrust: 46, heat: 38, flux: 52, reactor: 74, turbo: 42, sync: 73 },
+    { label: "STAGE IV",  power: 96, boost: 66, surge: 74, thrust: 63, heat: 52, flux: 68, reactor: 82, turbo: 58, sync: 84 },
+    { label: "STAGE V",   power: 100, boost: 82, surge: 89, thrust: 80, heat: 68, flux: 82, reactor: 92, turbo: 74, sync: 92 },
+    { label: "BEAST MAX", power: 100, boost: 100, surge: 100, thrust: 100, heat: 86, flux: 96, reactor: 100, turbo: 100, sync: 100 }
   ];
 
   let idx = 0;
@@ -368,6 +390,7 @@ function turboSequence(){
     const target = stages[idx];
     stageText.textContent = target.label;
     shockwave(2, 0);
+    pulseFlash(110);
 
     animateTo(target, 460, () => {
       if(idx < stages.length - 1){
@@ -377,6 +400,7 @@ function turboSequence(){
           surge: target.surge - 9,
           thrust: target.thrust - 8,
           heat: target.heat + 3,
+          flux: target.flux - 7,
           reactor: target.reactor - 6,
           turbo: target.turbo - 5,
           sync: target.sync - 6
@@ -399,6 +423,7 @@ function turboSequence(){
 function resetToEv(){
   stopLoops();
   switchState("ev");
+  pulseFlash(180);
 
   setTexts(
     "EV BEAST",
@@ -418,6 +443,7 @@ function resetToEv(){
       surge: 22,
       thrust: 14,
       heat: 8,
+      flux: 16,
       reactor: 34,
       turbo: 8,
       sync: 19
