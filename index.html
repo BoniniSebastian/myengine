@@ -13,6 +13,7 @@
     <div class="bgGlow bgGlowB"></div>
     <div class="speedLines"></div>
     <div class="noise"></div>
+    <div class="flashLayer" id="flashLayer"></div>
 
     <header class="topbar">
       <div class="modePill" id="modePill">EV BEAST</div>
@@ -67,15 +68,23 @@
           <div class="orbit orbit1"></div>
           <div class="orbit orbit2"></div>
           <div class="orbit orbit3"></div>
+          <div class="orbit orbit4"></div>
 
           <div class="shockContainer" id="shockContainer"></div>
 
           <div class="coreAura coreAura1"></div>
           <div class="coreAura coreAura2"></div>
+          <div class="coreAura coreAura3"></div>
+
+          <div class="spark spark1"></div>
+          <div class="spark spark2"></div>
+          <div class="spark spark3"></div>
+          <div class="spark spark4"></div>
 
           <div class="core" id="core">
             <div class="coreSpin coreSpinA"></div>
             <div class="coreSpin coreSpinB"></div>
+            <div class="coreSpin coreSpinC"></div>
             <div class="coreCenter">
               <div class="coreLabel">CORE</div>
               <div class="coreMode" id="coreMode">EV</div>
@@ -84,30 +93,43 @@
           </div>
         </div>
 
-        <div class="miniDialRow">
-          <div class="miniDial" id="surgeDial">
-            <div class="miniDialTitle">SURGE</div>
-            <div class="miniDialRing">
-              <div class="miniDialInner">
-                <div class="miniDialVal" id="surgeValue">22</div>
+        <div class="miniDialZone">
+          <div class="miniDialPair miniDialPair-left">
+            <div class="miniDial" id="surgeDial">
+              <div class="miniDialTitle">SURGE</div>
+              <div class="miniDialRing">
+                <div class="miniDialInner">
+                  <div class="miniDialVal" id="surgeValue">22</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="miniDial" id="thrustDial">
+              <div class="miniDialTitle">THRUST</div>
+              <div class="miniDialRing">
+                <div class="miniDialInner">
+                  <div class="miniDialVal" id="thrustValue">14</div>
+                </div>
               </div>
             </div>
           </div>
 
-          <div class="miniDial" id="thrustDial">
-            <div class="miniDialTitle">THRUST</div>
-            <div class="miniDialRing">
-              <div class="miniDialInner">
-                <div class="miniDialVal" id="thrustValue">14</div>
+          <div class="miniDialPair miniDialPair-right">
+            <div class="miniDial" id="heatDial">
+              <div class="miniDialTitle">HEAT</div>
+              <div class="miniDialRing">
+                <div class="miniDialInner">
+                  <div class="miniDialVal" id="heatValue">08</div>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div class="miniDial" id="heatDial">
-            <div class="miniDialTitle">HEAT</div>
-            <div class="miniDialRing">
-              <div class="miniDialInner">
-                <div class="miniDialVal" id="heatValue">08</div>
+            <div class="miniDial" id="fluxDial">
+              <div class="miniDialTitle">FLUX</div>
+              <div class="miniDialRing">
+                <div class="miniDialInner">
+                  <div class="miniDialVal" id="fluxValue">16</div>
+                </div>
               </div>
             </div>
           </div>
