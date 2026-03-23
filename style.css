@@ -152,7 +152,22 @@ button{
 }
 .speedLines::before{ animation:speedRun 1.2s linear infinite; }
 .speedLines::after{ animation:speedRun 1.8s linear infinite; opacity:.5; }
-.app.turbo .speedLines{ opacity:.5; }
+.app.turbo .speedLines{ opacity:.56; }
+
+.flashLayer{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  opacity:0;
+  background:
+    radial-gradient(circle at 50% 52%, color-mix(in srgb, var(--accent2) 28%, white 10%), transparent 24%),
+    radial-gradient(circle at 50% 52%, rgba(255,255,255,.10), transparent 38%);
+  transition:opacity .18s ease;
+}
+
+.app.flash .flashLayer{
+  opacity:1;
+}
 
 /* top */
 .topbar{
@@ -197,11 +212,11 @@ button{
   position:absolute;
   inset:40px 0 0;
   display:grid;
-  grid-template-columns:minmax(110px, 220px) minmax(420px, 1fr) minmax(110px, 220px);
+  grid-template-columns:minmax(120px, 240px) minmax(440px, 1fr) minmax(120px, 240px);
   align-items:start;
   justify-items:center;
   padding:0 12px;
-  gap:4px;
+  gap:2px;
 }
 
 .sideCluster{
@@ -210,7 +225,7 @@ button{
   flex-direction:column;
   align-items:center;
   justify-content:flex-start;
-  padding-top:134px;
+  padding-top:126px;
   gap:10px;
 }
 
@@ -230,7 +245,7 @@ button{
 .sideDial{
   --pct:35;
   position:relative;
-  width:min(18vw, 156px);
+  width:min(20vw, 176px);
   aspect-ratio:1;
   border-radius:50%;
   display:grid;
@@ -238,7 +253,7 @@ button{
   background:
     conic-gradient(from -90deg, var(--accent2) calc(var(--pct) * 1%), rgba(255,255,255,.08) 0);
   box-shadow:
-    0 0 24px color-mix(in srgb, var(--accent2) 35%, transparent),
+    0 0 28px color-mix(in srgb, var(--accent2) 35%, transparent),
     inset 0 0 0 1px rgba(255,255,255,.08);
 }
 .sideDial::before{
@@ -258,7 +273,7 @@ button{
   line-height:1;
 }
 .sideDialValue{
-  font-size:clamp(28px, 3vw, 42px);
+  font-size:clamp(32px, 3.2vw, 46px);
   font-weight:900;
 }
 .sideDialUnit{
@@ -274,7 +289,7 @@ button{
   letter-spacing:.12em;
   color:var(--muted);
   text-transform:uppercase;
-  max-width:140px;
+  max-width:150px;
 }
 
 /* center */
@@ -284,11 +299,11 @@ button{
   flex-direction:column;
   align-items:center;
   justify-content:flex-start;
-  gap:10px;
+  gap:8px;
 }
 
 .statusRails{
-  width:min(78vw, 760px);
+  width:min(80vw, 780px);
   display:flex;
   flex-direction:column;
   gap:7px;
@@ -337,35 +352,35 @@ button{
 
 .coreShell{
   position:relative;
-  width:min(54vw, 560px);
+  width:min(58vw, 610px);
   aspect-ratio:1;
   display:grid;
   place-items:center;
-  margin-top:-4px;
+  margin-top:2px;
   order:2;
 }
 
 .outerArc{
   position:absolute;
-  width:92%;
+  width:94%;
   aspect-ratio:1;
   border-radius:50%;
   pointer-events:none;
-  filter:drop-shadow(0 0 16px color-mix(in srgb, var(--accent2) 35%, transparent));
+  filter:drop-shadow(0 0 18px color-mix(in srgb, var(--accent2) 35%, transparent));
 }
 .leftArc{
   clip-path:inset(0 50% 0 0);
-  border:11px solid transparent;
-  border-left-color:color-mix(in srgb, var(--accent2) 80%, white 20%);
-  border-top-color:color-mix(in srgb, var(--accent2) 38%, transparent);
+  border:12px solid transparent;
+  border-left-color:color-mix(in srgb, var(--accent2) 88%, white 12%);
+  border-top-color:color-mix(in srgb, var(--accent2) 46%, transparent);
   transform:rotate(-24deg);
   opacity:.9;
 }
 .rightArc{
   clip-path:inset(0 0 0 50%);
-  border:11px solid transparent;
-  border-right-color:color-mix(in srgb, var(--accent2) 80%, white 20%);
-  border-bottom-color:color-mix(in srgb, var(--accent2) 38%, transparent);
+  border:12px solid transparent;
+  border-right-color:color-mix(in srgb, var(--accent2) 88%, white 12%);
+  border-bottom-color:color-mix(in srgb, var(--accent2) 46%, transparent);
   transform:rotate(22deg);
   opacity:.9;
 }
@@ -379,10 +394,17 @@ button{
 .orbit1{ width:74%; aspect-ratio:1; animation:spinA 9s linear infinite; }
 .orbit2{ width:90%; aspect-ratio:1; border-style:dashed; animation:spinB 16s linear infinite; }
 .orbit3{ width:100%; aspect-ratio:1; opacity:.35; }
+.orbit4{
+  width:62%;
+  aspect-ratio:1;
+  border-style:dotted;
+  opacity:.25;
+  animation:spinA 20s linear infinite;
+}
 
 .core{
   position:relative;
-  width:50%;
+  width:52%;
   aspect-ratio:1;
   border-radius:50%;
   display:grid;
@@ -392,9 +414,9 @@ button{
     radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--accent1) 88%, white 12%) 0 16%, color-mix(in srgb, var(--accent2) 72%, transparent) 18%, rgba(0,0,0,.78) 45%, transparent 68%),
     radial-gradient(circle, rgba(255,255,255,.12), transparent 58%);
   box-shadow:
-    0 0 20px color-mix(in srgb, var(--accent1) 55%, transparent),
-    0 0 42px color-mix(in srgb, var(--accent2) 45%, transparent),
-    0 0 96px color-mix(in srgb, var(--accent2) 28%, transparent),
+    0 0 22px color-mix(in srgb, var(--accent1) 55%, transparent),
+    0 0 48px color-mix(in srgb, var(--accent2) 45%, transparent),
+    0 0 110px color-mix(in srgb, var(--accent2) 28%, transparent),
     inset 0 0 30px rgba(255,255,255,.12);
   animation:coreBreath 2.6s ease-in-out infinite;
 }
@@ -417,7 +439,7 @@ button{
   inset:-14%;
   border-radius:50%;
   border:1px solid rgba(255,255,255,.05);
-  box-shadow:0 0 30px color-mix(in srgb, var(--accent1) 30%, transparent);
+  box-shadow:0 0 34px color-mix(in srgb, var(--accent1) 30%, transparent);
 }
 
 .coreAura{
@@ -438,6 +460,26 @@ button{
   background:radial-gradient(circle, color-mix(in srgb, var(--accent2) 34%, transparent), transparent 70%);
   animation:auraPulse 3.2s ease-in-out infinite reverse;
 }
+.coreAura3{
+  width:94%;
+  aspect-ratio:1;
+  background:radial-gradient(circle, color-mix(in srgb, var(--accent3) 16%, transparent), transparent 74%);
+  animation:auraPulse 4.8s ease-in-out infinite;
+}
+
+.spark{
+  position:absolute;
+  width:7px;
+  height:18px;
+  border-radius:999px;
+  background:linear-gradient(180deg, color-mix(in srgb, var(--accent2) 90%, white 10%), transparent);
+  box-shadow:0 0 12px color-mix(in srgb, var(--accent2) 55%, transparent);
+  opacity:.7;
+}
+.spark1{ top:20%; left:32%; transform:rotate(-18deg); animation:flicker 2.2s ease-in-out infinite; }
+.spark2{ top:24%; right:28%; transform:rotate(16deg); animation:flicker 1.7s ease-in-out infinite .2s; }
+.spark3{ bottom:24%; left:28%; transform:rotate(18deg); animation:flicker 2.4s ease-in-out infinite .4s; }
+.spark4{ bottom:20%; right:32%; transform:rotate(-14deg); animation:flicker 1.9s ease-in-out infinite .1s; }
 
 .coreSpin{
   position:absolute;
@@ -458,6 +500,14 @@ button{
   border-bottom-color:color-mix(in srgb, var(--accent2) 86%, white 14%);
   border-left-color:color-mix(in srgb, var(--accent1) 65%, transparent);
   animation:spinB 2.2s linear infinite;
+}
+.coreSpinC{
+  inset:31%;
+  border-width:4px;
+  border-top-color:color-mix(in srgb, var(--accent3) 65%, transparent);
+  border-right-color:color-mix(in srgb, var(--accent2) 80%, white 20%);
+  animation:spinA 4.6s linear infinite reverse;
+  opacity:.75;
 }
 
 .coreCenter{
@@ -501,14 +551,18 @@ button{
   opacity:.95;
 }
 
-.miniDialRow{
-  width:min(44vw, 420px);
+.miniDialZone{
+  width:min(60vw, 620px);
   display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:18px;
-  margin-top:-30px;
+  justify-content:space-between;
+  align-items:flex-start;
+  margin-top:-32px;
   order:3;
+}
+
+.miniDialPair{
+  display:flex;
+  gap:16px;
 }
 
 .miniDial{
@@ -561,20 +615,20 @@ button{
 /* buttons */
 .controlPod{
   position:relative;
-  width:min(58vw, 560px);
+  width:min(64vw, 660px);
   display:grid;
-  grid-template-columns:repeat(3, 110px);
+  grid-template-columns:repeat(3, 126px);
   justify-content:center;
-  gap:18px;
-  margin-top:8px;
-  padding-bottom:12px;
+  gap:26px;
+  margin-top:10px;
+  padding-bottom:14px;
   order:4;
 }
 
 .podBtn{
   position:relative;
-  width:110px;
-  height:110px;
+  width:126px;
+  height:126px;
   border-radius:50%;
   border:1px solid rgba(255,255,255,.16);
   background:
@@ -587,7 +641,7 @@ button{
   cursor:pointer;
   overflow:hidden;
   text-transform:uppercase;
-  transition:transform .12s ease, box-shadow .12s ease;
+  transition:transform .12s ease, box-shadow .12s ease, filter .12s ease;
 }
 
 .podBtn::after{
@@ -595,11 +649,15 @@ button{
   position:absolute;
   inset:3px;
   border-radius:50%;
-  border:1px solid color-mix(in srgb, var(--accent2) 44%, transparent);
+  border:1px solid color-mix(in srgb, var(--accent2) 46%, transparent);
   box-shadow:
     0 0 10px color-mix(in srgb, var(--accent2) 35%, transparent),
     inset 0 0 10px color-mix(in srgb, var(--accent2) 20%, transparent);
   pointer-events:none;
+}
+
+.podBtn:hover{
+  filter:brightness(1.06);
 }
 
 .podBtn:active{
@@ -622,19 +680,19 @@ button{
   display:block;
   text-align:center;
   font-weight:900;
-  letter-spacing:.16em;
+  letter-spacing:.13em;
 }
 
 .podTop{
-  margin-top:26px;
-  font-size:10px;
+  margin-top:31px;
+  font-size:9px;
   opacity:.86;
 }
 
 .podBottom{
   margin-top:4px;
-  font-size:20px;
-  line-height:1;
+  font-size:16px;
+  line-height:1.05;
 }
 
 .evBtn{
@@ -679,35 +737,40 @@ button{
   }
 
   .statusRails{
-    width:min(92vw, 760px);
+    width:min(92vw, 780px);
   }
 
   .coreShell{
-    width:min(76vw, 520px);
+    width:min(78vw, 560px);
   }
 
-  .miniDialRow{
-    width:min(82vw, 420px);
+  .miniDialZone{
+    width:min(90vw, 620px);
+    gap:12px;
+  }
+
+  .miniDialPair{
+    gap:12px;
   }
 
   .controlPod{
-    width:min(88vw, 560px);
-    grid-template-columns:repeat(3, 96px);
-    gap:14px;
+    width:min(92vw, 660px);
+    grid-template-columns:repeat(3, 106px);
+    gap:18px;
   }
 
   .podBtn{
-    width:96px;
-    height:96px;
+    width:106px;
+    height:106px;
   }
 
   .podTop{
-    margin-top:22px;
-    font-size:9px;
+    margin-top:26px;
+    font-size:8px;
   }
 
   .podBottom{
-    font-size:17px;
+    font-size:14px;
   }
 }
 
@@ -762,4 +825,8 @@ button{
   50%{ transform:translateX(1px); }
   75%{ transform:translateX(-1px); }
   100%{ transform:translateX(0); }
+}
+@keyframes flicker{
+  0%,100%{ opacity:.28; transform:scale(.9); }
+  50%{ opacity:.9; transform:scale(1.08); }
 }
