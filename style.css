@@ -92,7 +92,7 @@ button{
   width:34vw;
   height:34vw;
   left:18vw;
-  top:20vh;
+  top:18vh;
   background:radial-gradient(circle, var(--ev1), transparent 68%);
   animation:floatA 7s ease-in-out infinite;
 }
@@ -100,7 +100,7 @@ button{
   width:38vw;
   height:38vw;
   right:16vw;
-  bottom:14vh;
+  bottom:12vh;
   background:radial-gradient(circle, rgba(122,125,255,.7), transparent 68%);
   animation:floatB 9s ease-in-out infinite;
 }
@@ -192,16 +192,16 @@ button{
   text-transform:uppercase;
 }
 
-/* layout */
+/* main layout */
 .dashboard{
   position:absolute;
-  inset:40px 0 10px;
+  inset:40px 0 0;
   display:grid;
-  grid-template-columns:minmax(90px, 180px) minmax(380px, 1fr) minmax(90px, 180px);
+  grid-template-columns:minmax(110px, 220px) minmax(420px, 1fr) minmax(110px, 220px);
   align-items:start;
   justify-items:center;
-  padding:0 10px;
-  gap:6px;
+  padding:0 12px;
+  gap:4px;
 }
 
 .sideCluster{
@@ -209,8 +209,8 @@ button{
   display:flex;
   flex-direction:column;
   align-items:center;
-  justify-content:center;
-  padding-top:92px;
+  justify-content:flex-start;
+  padding-top:134px;
   gap:10px;
 }
 
@@ -230,7 +230,7 @@ button{
 .sideDial{
   --pct:35;
   position:relative;
-  width:min(15vw, 132px);
+  width:min(18vw, 156px);
   aspect-ratio:1;
   border-radius:50%;
   display:grid;
@@ -238,13 +238,13 @@ button{
   background:
     conic-gradient(from -90deg, var(--accent2) calc(var(--pct) * 1%), rgba(255,255,255,.08) 0);
   box-shadow:
-    0 0 22px color-mix(in srgb, var(--accent2) 35%, transparent),
+    0 0 24px color-mix(in srgb, var(--accent2) 35%, transparent),
     inset 0 0 0 1px rgba(255,255,255,.08);
 }
 .sideDial::before{
   content:"";
   position:absolute;
-  inset:14px;
+  inset:15px;
   border-radius:50%;
   background:rgba(4,7,13,.94);
   box-shadow:inset 0 0 16px rgba(255,255,255,.04);
@@ -258,12 +258,12 @@ button{
   line-height:1;
 }
 .sideDialValue{
-  font-size:clamp(24px, 2.8vw, 38px);
+  font-size:clamp(28px, 3vw, 42px);
   font-weight:900;
 }
 .sideDialUnit{
   margin-top:6px;
-  font-size:9px;
+  font-size:10px;
   letter-spacing:.18em;
   color:var(--muted);
 }
@@ -274,7 +274,7 @@ button{
   letter-spacing:.12em;
   color:var(--muted);
   text-transform:uppercase;
-  max-width:120px;
+  max-width:140px;
 }
 
 /* center */
@@ -287,26 +287,75 @@ button{
   gap:10px;
 }
 
+.statusRails{
+  width:min(78vw, 760px);
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+  margin-top:0;
+  order:1;
+}
+
+.railRow{
+  display:grid;
+  grid-template-columns:112px 1fr 42px;
+  align-items:center;
+  gap:8px;
+}
+
+.railLabel,
+.railPct{
+  font-size:9px;
+  letter-spacing:.16em;
+  color:var(--muted);
+}
+
+.railTrack{
+  height:9px;
+  border-radius:999px;
+  overflow:hidden;
+  background:rgba(255,255,255,.06);
+  box-shadow:
+    inset 0 0 8px rgba(0,0,0,.45),
+    0 0 0 1px rgba(255,255,255,.05);
+}
+
+.railFill{
+  width:34%;
+  height:100%;
+  border-radius:inherit;
+  background:linear-gradient(90deg, var(--accent1), var(--accent2), color-mix(in srgb, var(--accent1) 80%, white 20%));
+  box-shadow:0 0 14px color-mix(in srgb, var(--accent2) 45%, transparent);
+  transition:width .25s linear;
+}
+.turboFill{
+  background:linear-gradient(90deg, color-mix(in srgb, var(--accent2) 75%, white 25%), var(--accent1), color-mix(in srgb, var(--accent2) 88%, white 12%));
+}
+.syncFill{
+  background:linear-gradient(90deg, color-mix(in srgb, var(--accent3) 75%, white 25%), var(--accent2), color-mix(in srgb, var(--accent1) 88%, white 12%));
+}
+
 .coreShell{
   position:relative;
-  width:min(46vw, 470px);
+  width:min(54vw, 560px);
   aspect-ratio:1;
   display:grid;
   place-items:center;
-  margin-top:-8px;
+  margin-top:-4px;
+  order:2;
 }
 
 .outerArc{
   position:absolute;
-  width:84%;
+  width:92%;
   aspect-ratio:1;
   border-radius:50%;
   pointer-events:none;
-  filter:drop-shadow(0 0 14px color-mix(in srgb, var(--accent2) 35%, transparent));
+  filter:drop-shadow(0 0 16px color-mix(in srgb, var(--accent2) 35%, transparent));
 }
 .leftArc{
   clip-path:inset(0 50% 0 0);
-  border:10px solid transparent;
+  border:11px solid transparent;
   border-left-color:color-mix(in srgb, var(--accent2) 80%, white 20%);
   border-top-color:color-mix(in srgb, var(--accent2) 38%, transparent);
   transform:rotate(-24deg);
@@ -314,7 +363,7 @@ button{
 }
 .rightArc{
   clip-path:inset(0 0 0 50%);
-  border:10px solid transparent;
+  border:11px solid transparent;
   border-right-color:color-mix(in srgb, var(--accent2) 80%, white 20%);
   border-bottom-color:color-mix(in srgb, var(--accent2) 38%, transparent);
   transform:rotate(22deg);
@@ -327,13 +376,13 @@ button{
   border:1px solid rgba(255,255,255,.09);
   box-shadow:inset 0 0 14px rgba(255,255,255,.03);
 }
-.orbit1{ width:70%; aspect-ratio:1; animation:spinA 9s linear infinite; }
-.orbit2{ width:88%; aspect-ratio:1; border-style:dashed; animation:spinB 16s linear infinite; }
+.orbit1{ width:74%; aspect-ratio:1; animation:spinA 9s linear infinite; }
+.orbit2{ width:90%; aspect-ratio:1; border-style:dashed; animation:spinB 16s linear infinite; }
 .orbit3{ width:100%; aspect-ratio:1; opacity:.35; }
 
 .core{
   position:relative;
-  width:48%;
+  width:50%;
   aspect-ratio:1;
   border-radius:50%;
   display:grid;
@@ -343,9 +392,9 @@ button{
     radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--accent1) 88%, white 12%) 0 16%, color-mix(in srgb, var(--accent2) 72%, transparent) 18%, rgba(0,0,0,.78) 45%, transparent 68%),
     radial-gradient(circle, rgba(255,255,255,.12), transparent 58%);
   box-shadow:
-    0 0 18px color-mix(in srgb, var(--accent1) 55%, transparent),
-    0 0 36px color-mix(in srgb, var(--accent2) 45%, transparent),
-    0 0 90px color-mix(in srgb, var(--accent2) 28%, transparent),
+    0 0 20px color-mix(in srgb, var(--accent1) 55%, transparent),
+    0 0 42px color-mix(in srgb, var(--accent2) 45%, transparent),
+    0 0 96px color-mix(in srgb, var(--accent2) 28%, transparent),
     inset 0 0 30px rgba(255,255,255,.12);
   animation:coreBreath 2.6s ease-in-out infinite;
 }
@@ -378,13 +427,13 @@ button{
   filter:blur(18px);
 }
 .coreAura1{
-  width:58%;
+  width:62%;
   aspect-ratio:1;
   background:radial-gradient(circle, color-mix(in srgb, var(--accent1) 60%, transparent), transparent 68%);
   animation:auraPulse 2.3s ease-in-out infinite;
 }
 .coreAura2{
-  width:76%;
+  width:80%;
   aspect-ratio:1;
   background:radial-gradient(circle, color-mix(in srgb, var(--accent2) 34%, transparent), transparent 70%);
   animation:auraPulse 3.2s ease-in-out infinite reverse;
@@ -423,7 +472,7 @@ button{
 }
 .coreMode{
   margin-top:6px;
-  font-size:clamp(28px, 3vw, 42px);
+  font-size:clamp(30px, 3.4vw, 46px);
   font-weight:900;
   letter-spacing:.16em;
 }
@@ -452,14 +501,14 @@ button{
   opacity:.95;
 }
 
-/* small dials */
 .miniDialRow{
-  width:min(42vw, 380px);
+  width:min(44vw, 420px);
   display:flex;
   justify-content:center;
   align-items:center;
-  gap:14px;
-  margin-top:-20px;
+  gap:18px;
+  margin-top:-30px;
+  order:3;
 }
 
 .miniDial{
@@ -477,7 +526,7 @@ button{
 
 .miniDialRing{
   --pct:40;
-  width:74px;
+  width:78px;
   aspect-ratio:1;
   border-radius:50%;
   display:grid;
@@ -504,75 +553,32 @@ button{
   place-items:center;
 }
 .miniDialVal{
-  font-size:20px;
+  font-size:21px;
   font-weight:900;
   text-shadow:0 0 12px color-mix(in srgb, var(--accent2) 35%, transparent);
 }
 
-/* rails */
-.statusRails{
-  width:min(72vw, 720px);
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-  margin-top:2px;
-}
-
-.railRow{
-  display:grid;
-  grid-template-columns:110px 1fr 42px;
-  align-items:center;
-  gap:8px;
-}
-
-.railLabel,
-.railPct{
-  font-size:9px;
-  letter-spacing:.16em;
-  color:var(--muted);
-}
-
-.railTrack{
-  height:10px;
-  border-radius:999px;
-  overflow:hidden;
-  background:rgba(255,255,255,.06);
-  box-shadow:
-    inset 0 0 8px rgba(0,0,0,.45),
-    0 0 0 1px rgba(255,255,255,.05);
-}
-
-.railFill{
-  width:34%;
-  height:100%;
-  border-radius:inherit;
-  background:linear-gradient(90deg, var(--accent1), var(--accent2), color-mix(in srgb, var(--accent1) 80%, white 20%));
-  box-shadow:0 0 14px color-mix(in srgb, var(--accent2) 45%, transparent);
-  transition:width .25s linear;
-}
-.turboFill{
-  background:linear-gradient(90deg, color-mix(in srgb, var(--accent2) 75%, white 25%), var(--accent1), color-mix(in srgb, var(--accent2) 88%, white 12%));
-}
-.syncFill{
-  background:linear-gradient(90deg, color-mix(in srgb, var(--accent3) 75%, white 25%), var(--accent2), color-mix(in srgb, var(--accent1) 88%, white 12%));
-}
-
-/* control pod */
+/* buttons */
 .controlPod{
   position:relative;
-  width:min(54vw, 520px);
-  height:112px;
-  display:flex;
-  align-items:flex-end;
+  width:min(58vw, 560px);
+  display:grid;
+  grid-template-columns:repeat(3, 110px);
   justify-content:center;
-  margin-top:2px;
+  gap:18px;
+  margin-top:8px;
+  padding-bottom:12px;
+  order:4;
 }
 
 .podBtn{
-  position:absolute;
+  position:relative;
+  width:110px;
+  height:110px;
+  border-radius:50%;
   border:1px solid rgba(255,255,255,.16);
   background:
-    linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.05) 55%, rgba(255,255,255,.02));
+    linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.04) 55%, rgba(255,255,255,.02));
   box-shadow:
     0 10px 30px rgba(0,0,0,.35),
     inset 0 1px 0 rgba(255,255,255,.18),
@@ -582,6 +588,18 @@ button{
   overflow:hidden;
   text-transform:uppercase;
   transition:transform .12s ease, box-shadow .12s ease;
+}
+
+.podBtn::after{
+  content:"";
+  position:absolute;
+  inset:3px;
+  border-radius:50%;
+  border:1px solid color-mix(in srgb, var(--accent2) 44%, transparent);
+  box-shadow:
+    0 0 10px color-mix(in srgb, var(--accent2) 35%, transparent),
+    inset 0 0 10px color-mix(in srgb, var(--accent2) 20%, transparent);
+  pointer-events:none;
 }
 
 .podBtn:active{
@@ -608,40 +626,15 @@ button{
 }
 
 .podTop{
-  font-size:11px;
+  margin-top:26px;
+  font-size:10px;
   opacity:.86;
 }
 
 .podBottom{
   margin-top:4px;
-  font-size:24px;
+  font-size:20px;
   line-height:1;
-}
-
-.podBtn-left,
-.podBtn-right{
-  width:110px;
-  height:110px;
-  border-radius:50%;
-  top:2px;
-}
-
-.podBtn-center{
-  width:156px;
-  height:156px;
-  border-radius:50%;
-  top:-20px;
-  z-index:2;
-}
-
-.podBtn-left{
-  left:78px;
-  z-index:1;
-}
-
-.podBtn-right{
-  right:78px;
-  z-index:1;
 }
 
 .evBtn{
@@ -649,38 +642,23 @@ button{
     0 10px 30px rgba(0,0,0,.35),
     inset 0 1px 0 rgba(255,255,255,.18),
     inset 0 -8px 18px rgba(0,0,0,.22),
-    0 0 22px rgba(0,255,220,.15);
+    0 0 20px rgba(0,255,220,.12);
 }
-
 .startBtn{
   box-shadow:
     0 10px 30px rgba(0,0,0,.35),
     inset 0 1px 0 rgba(255,255,255,.18),
     inset 0 -8px 18px rgba(0,0,0,.22),
-    0 0 24px rgba(255,170,80,.18);
+    0 0 20px rgba(255,170,80,.14);
 }
-
 .turboBtn{
   box-shadow:
     0 10px 30px rgba(0,0,0,.35),
     inset 0 1px 0 rgba(255,255,255,.18),
     inset 0 -8px 18px rgba(0,0,0,.22),
-    0 0 24px rgba(255,90,0,.20);
+    0 0 22px rgba(255,90,0,.16);
 }
 
-.podBtn-left .podBottom,
-.podBtn-right .podBottom{
-  font-size:18px;
-}
-
-.podBtn-center .podTop{
-  font-size:12px;
-}
-.podBtn-center .podBottom{
-  font-size:26px;
-}
-
-/* misc state text */
 .app.ev .systemText{ color:rgba(200,255,248,.82); }
 .app.engine .systemText{ color:rgba(255,222,188,.84); }
 .app.turbo .systemText{ color:rgba(255,235,223,.90); }
@@ -693,27 +671,44 @@ button{
 @media (max-width: 980px){
   .dashboard{
     grid-template-columns:1fr;
-    inset:40px 0 10px;
+    inset:40px 0 0;
   }
 
   .sideCluster{
     display:none;
   }
 
-  .coreShell{
-    width:min(72vw, 430px);
+  .statusRails{
+    width:min(92vw, 760px);
   }
 
-  .statusRails{
-    width:min(90vw, 640px);
+  .coreShell{
+    width:min(76vw, 520px);
+  }
+
+  .miniDialRow{
+    width:min(82vw, 420px);
   }
 
   .controlPod{
-    width:min(82vw, 520px);
+    width:min(88vw, 560px);
+    grid-template-columns:repeat(3, 96px);
+    gap:14px;
   }
 
-  .podBtn-left{ left:50px; }
-  .podBtn-right{ right:50px; }
+  .podBtn{
+    width:96px;
+    height:96px;
+  }
+
+  .podTop{
+    margin-top:22px;
+    font-size:9px;
+  }
+
+  .podBottom{
+    font-size:17px;
+  }
 }
 
 /* animations */
