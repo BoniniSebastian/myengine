@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MyEngine Tesla</title>
+  <title>MyEngine Tesla Fit</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -30,11 +30,36 @@
             </div>
           </div>
         </div>
-
         <div class="sideMiniText" id="powerCaption">electric pulse stable</div>
       </section>
 
       <section class="centerCore">
+        <section class="statusRails">
+          <div class="railRow">
+            <div class="railLabel">REACTOR LOAD</div>
+            <div class="railTrack">
+              <div class="railFill" id="reactorBar"></div>
+            </div>
+            <div class="railPct" id="reactorPct">34%</div>
+          </div>
+
+          <div class="railRow">
+            <div class="railLabel">TURBO PRESSURE</div>
+            <div class="railTrack">
+              <div class="railFill turboFill" id="turboBar"></div>
+            </div>
+            <div class="railPct" id="turboPct">08%</div>
+          </div>
+
+          <div class="railRow">
+            <div class="railLabel">IGNITION SYNC</div>
+            <div class="railTrack">
+              <div class="railFill syncFill" id="syncBar"></div>
+            </div>
+            <div class="railPct" id="syncPct">19%</div>
+          </div>
+        </section>
+
         <div class="coreShell">
           <div class="outerArc leftArc" id="leftArc"></div>
           <div class="outerArc rightArc" id="rightArc"></div>
@@ -88,46 +113,20 @@
           </div>
         </div>
 
-        <section class="statusRails">
-          <div class="railRow">
-            <div class="railLabel">REACTOR LOAD</div>
-            <div class="railTrack">
-              <div class="railFill" id="reactorBar"></div>
-            </div>
-            <div class="railPct" id="reactorPct">34%</div>
-          </div>
-
-          <div class="railRow">
-            <div class="railLabel">TURBO PRESSURE</div>
-            <div class="railTrack">
-              <div class="railFill turboFill" id="turboBar"></div>
-            </div>
-            <div class="railPct" id="turboPct">08%</div>
-          </div>
-
-          <div class="railRow">
-            <div class="railLabel">IGNITION SYNC</div>
-            <div class="railTrack">
-              <div class="railFill syncFill" id="syncBar"></div>
-            </div>
-            <div class="railPct" id="syncPct">19%</div>
-          </div>
-        </section>
-
         <section class="controlPod" aria-label="Kontroller">
-          <button class="podBtn podBtn-left evBtn" id="evBtn">
+          <button class="podBtn evBtn" id="evBtn">
             <span class="podGlow"></span>
             <span class="podTop">EV</span>
             <span class="podBottom">RETURN</span>
           </button>
 
-          <button class="podBtn podBtn-center startBtn" id="startBtn">
+          <button class="podBtn startBtn" id="startBtn">
             <span class="podGlow"></span>
             <span class="podTop">START</span>
             <span class="podBottom">ENGINE</span>
           </button>
 
-          <button class="podBtn podBtn-right turboBtn" id="turboBtn">
+          <button class="podBtn turboBtn" id="turboBtn">
             <span class="podGlow"></span>
             <span class="podTop">TURBO</span>
             <span class="podBottom">MODE</span>
@@ -145,7 +144,6 @@
             </div>
           </div>
         </div>
-
         <div class="sideMiniText" id="boostCaption">standby pressure</div>
       </section>
     </main>
