@@ -93,6 +93,7 @@ function render(){
 
   setDial(powerDial, values.power);
   setDial(boostDial, values.boost);
+
   setDial(surgeDial.querySelector(".miniDialRing"), values.surge);
   setDial(thrustDial.querySelector(".miniDialRing"), values.thrust);
   setDial(heatDial.querySelector(".miniDialRing"), values.heat);
@@ -183,8 +184,8 @@ function startEvAmbient(){
 
     ticker += 0.02;
 
-    values.power = 30 + Math.sin(ticker) * 6 + Math.sin(ticker * 0.5) * 2;
-    values.boost = 7 + Math.sin(ticker * 1.5 + 1.1) * 3;
+    values.power = 34 + Math.sin(ticker) * 7 + Math.sin(ticker * 0.5) * 2;
+    values.boost = 8 + Math.sin(ticker * 1.5 + 1.1) * 3;
     values.surge = 18 + Math.sin(ticker * 1.1) * 4;
     values.thrust = 12 + Math.sin(ticker * 0.8 + 0.5) * 3;
     values.heat = 7 + Math.sin(ticker * 0.7 + 2) * 2;
